@@ -1,4 +1,4 @@
-# ISS Challenge Task 1 - Data Tabularization
+# Omdena-ISS Task 1 - Data Tabularization
 
 **Task Manager**: Jianna Park
 
