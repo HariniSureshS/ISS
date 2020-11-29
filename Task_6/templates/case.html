@@ -1,0 +1,12 @@
+{% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {%
+block title %}Case Information{% endblock %} {% block content %}
+<div class="container">
+  <h3>Enter case information</h3>
+  <hr />
+  {{ wtf.quick_form(form) }}
+  {% for error in form.case_upload.errors%}
+  <div class='alert alert-danger' role='alert'>{{error}}</div>
+  {% endfor %}
+  <hr />
+</div>
+{% endblock %}
