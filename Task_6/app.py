@@ -8,6 +8,7 @@ import numpy as np
 import tensorflow as tf
 import keras
 from keras.models import load_model
+import models
 
 app = Flask(__name__)
 app.config.from_mapping(
@@ -34,7 +35,6 @@ def enter_case():
         session['file'] = content
         return redirect('/result')
     return render_template('case.html', form=case_form)
-
 
 @app.route('/result')
 def show_result():
@@ -72,7 +72,7 @@ def get_risk_score(case_text):
 
 
 def get_similar(case_text):
-    return 'sim'
+    return models.extract_embeddings([case_text])
 
 
 def translate(case_text):
