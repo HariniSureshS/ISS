@@ -8,7 +8,8 @@ import numpy as np
 import tensorflow as tf
 import keras
 from keras.models import load_model
-import models
+from models.embedding_model import extract_embeddings
+
 
 app = Flask(__name__)
 app.config.from_mapping(
@@ -19,9 +20,10 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 Bootstrap(app)
 
-# from models import Case
 from sample import x_test
+import dbmodels
 
+risk_model = load_model('models/risk_0.189.h5')
 
 @app.route('/', methods=['GET', 'POST'])
 def enter_case():
@@ -63,7 +65,6 @@ def get_keywords(case_text):
 
 
 def get_risk_score(case_text):
-    risk_model = load_model('models/risk_0.189.h5')
     y_hat = risk_model.predict(np.expand_dims(x_test, axis=0))[0][0]
     # x_test risk score should be around 0.75
     # print(type(y_hat), y_hat)
@@ -72,7 +73,7 @@ def get_risk_score(case_text):
 
 
 def get_similar(case_text):
-    return models.extract_embeddings([case_text])
+    return extract_embeddings([case_text])
 
 
 def translate(case_text):
