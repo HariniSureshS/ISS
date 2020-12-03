@@ -28,7 +28,7 @@ def seed():
     print("Database seeded!")
 
   except Exception as e:
-      return(str(e))
+    print(str(e))
 
 
 if __name__ == "__main__":
