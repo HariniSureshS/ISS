@@ -12,16 +12,18 @@ class Case(db.Model):
     is_closed = db.Column(db.Boolean())
     close_date = db.Column(db.Date())
     country = db.Column(db.String())
+    service = db.Column(db.String())
     case_text = db.Column(db.Text())
     embeddings = db.Column(db.ARRAY(db.Float))
     embeddings_date = db.Column(db.Date())
 
-    def __init__(self, case_number, open_date, is_closed, close_date, country, case_text, embeddings, embeddings_date):
+    def __init__(self, case_number, open_date, is_closed, close_date, country, service, case_text, embeddings, embeddings_date):
         self.case_number = case_number
         self.open_date = open_date
         self.is_closed = is_closed
         self.close_date = close_date
         self.country = country
+        self.service = service
         self.case_text = case_text
         self.embeddings = embeddings
         self.embeddings_date = embeddings.date
@@ -37,6 +39,7 @@ class Case(db.Model):
             'is_closed': self.is_closed,
             'close_date': self.close_date,
             'country': self.country,
+            'service': self.service,
             'case_text': self.case_text,
             'embeddings': self.embeddings,
             'embeddings_date': self.embeddings_date

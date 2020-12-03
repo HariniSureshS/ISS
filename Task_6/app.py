@@ -27,10 +27,9 @@ risk_model = load_model('models/risk_0.189.h5')
 
 @app.route('/', methods=['GET', 'POST'])
 def enter_case():
-    form = request.form
     case_form = CaseForm()
     if request.method == 'POST' and case_form.validate_on_submit():
-        session['form'] = form
+        session['form'] = request.form
         file_data = request.files.get('case_upload')
         file_data.seek(0)
         content = file_data.read().decode('utf-8')
