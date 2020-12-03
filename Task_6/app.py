@@ -28,7 +28,7 @@ risk_model = load_model('models/risk_0.189.h5')
 
 @app.route('/')
 def main_menu():
-    print('Please select an option: (1) run models (2) query database.')
+    print('Please select option: (1) run models on new case (2) query database.')
     return redirect('/models')
 
 
@@ -88,61 +88,58 @@ def translate(case_text):
     return 'trans'
 
 
+# form page to query cases from database
 @app.route('/query', methods=['GET', 'POST'])
 def query_db():
-    # get all cases (o)
-    # get open cases
-    # get closed cases; get closed cases that took less than 3 months
-    # get case by id (o)
-    # get cases by country
-    # get cases by date range (start, end)
-    # get cases by service requested
-    # get cases whose risk_score is >= 0.75, in order
-
     # form input:
-    # - get_all: Boolean (if True, get all cases)
+    # - get_both_open_and_close: (radio) Boolean (if True, get all cases)
     # - get_open: (radio) Boolean (if True, only get open cases)
     # - get_close: (radio) Boolean (if True, only get closed cases)
-    # - case_id: Integer --> return one case or None
     # - country: String --> return all cases whose country equals to input
-    # - start_date: Date
+    # - date_range: (check) Boolean (if True, validate start_date and end_date)
+    # - start_date: Date (if date_range and start_date != '': start = start_date, else: start = None)
     # - end_date: Date
     # - service: String
+    # - get_high_risk: Boolean
     query_form = QueryForm()
     if request.method == 'POST' and query_form.validate_on_submit():
         if request.form['case_number'] != '':
             return redirect(url_for('get_case_by_number', case_number_=request.form['case_number']))
-
         return redirect(url_for('get_all_cases', params=request.form))
     else:
         return render_template('query.html', form=query_form)
 
 
-# get all cases
 @app.route('/allcases')
 def get_all_cases():
     try:
+        find_cases = dbmodels.Case.query
         # if params['country'] != '':
 
-        # if params['get_open']:
+        # if params['get_open_only']:
 
-        # if params['get_close']:
+        # if params['get_close_only']:
 
-        # if params[''] etc.
+        # if params['date_range']:
+            # User.query.order_by(User.username).all()
+
+        # if params['service']:
+
+        # if params['get_high_risk']:
+            # get cases whose risk_score is >= 0.75, in order
 
 
         # if no parameters are specified, get all cases
-        cases = dbmodels.Case.query.all()
+        cases = find_cases.all()
         return jsonify([case.serialize() for case in cases])
     except Exception as e:
         return str(e)
 
 
-# get case by case_number
 @app.route('/case/number/<case_number_>')
 def get_case_by_number(case_number_):
     try:
-        case = dbmodels.Case.query.filter_by(case_number=case_number_).first()
+        case = dbmodels.Case.query.filter_by(case_number=case_number_).first_or_404(description='There is no data with the following case_number: {}'.format(case_number_))
         return jsonify(case.serialize())
     except Exception as e:
         return str(e)
