@@ -15,7 +15,8 @@ app = Flask(__name__)
 app.config.from_mapping(
     SECRET_KEY=b'\x94\xf4\xb6Eo\xc4?Kia\x852\xbc\xe9S~\xb7\xd0\xb7#a\x93g\xb8',
     WTF_CSRF_TIME_LIMIT=None,
-    SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost:5432/iss")
+    SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost:5432/iss",
+    SQLALCHEMY_ECHO= True)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 Bootstrap(app)

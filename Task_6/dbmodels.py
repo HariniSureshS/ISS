@@ -1,7 +1,4 @@
 from app import db
-import tensorflow_hub as hub
-model = hub.load('https://tfhub.dev/google/universal-sentence-encoder/4')
-
 
 class Case(db.Model):
     __tablename__ = 'cases'
@@ -17,7 +14,18 @@ class Case(db.Model):
     embeddings = db.Column(db.ARRAY(db.Float))
     embeddings_date = db.Column(db.Date())
 
-    def __init__(self, case_number, open_date, is_closed, close_date, country, service, case_text, embeddings, embeddings_date):
+    def __init__(
+        self,
+        case_number = None,
+        open_date = None,
+        is_closed = None,
+        close_date = None,
+        country = None,
+        service = None,
+        case_text = None,
+        embeddings = None,
+        embeddings_date = None
+    ):
         self.case_number = case_number
         self.open_date = open_date
         self.is_closed = is_closed
@@ -26,7 +34,7 @@ class Case(db.Model):
         self.service = service
         self.case_text = case_text
         self.embeddings = embeddings
-        self.embeddings_date = embeddings.date
+        self.embeddings_date = embeddings_date
 
     def __repr__(self):
         return "<Case {}>".format(self.case_number)
