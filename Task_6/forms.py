@@ -1,4 +1,4 @@
-from wtforms import SubmitField, StringField, BooleanField, DateField, TextAreaField, SelectField, validators
+from wtforms import SubmitField, StringField, RadioField, BooleanField, DateField, TextAreaField, SelectField, validators
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 import datetime
@@ -11,16 +11,20 @@ class CaseForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class QueryForm(FlaskForm):
-    case_number = StringField('Find a case by case number')
+    get_open_close = RadioField(choices=[[0, 'Show open cases only'], [1, 'Show closed cases only'], [2, 'Show both open and closed cases']], default=2)
 
-    open_date = DateField('Find cases that opened on or after this date', description='Please follow this format: YYYY-MM-DD', validators=[validators.Optional()])
+    case_number = StringField('Show a case by case number')
 
-    close_date = DateField('Find cases that closed on or before this date', description='Please follow this format: YYYY-MM-DD', validators=[validators.Optional()])
+    open_date = DateField('Show cases that opened on or after this date', description='Please follow this format: YYYY-MM-DD', validators=[validators.Optional()])
 
-    country = StringField('Find cases where service is requested in this country')
+    close_date = DateField('Show cases that closed on or before this date, if closed', description='Please follow this format: YYYY-MM-DD', validators=[validators.Optional()])
 
-    service = SelectField('Service Requested', choices=['', 'Child Protection', 'Children on the Move'], validate_choice=False)
+    country = StringField('Show cases where service is requested in this country')
 
-    keywords = TextAreaField('Find cases that contain these words', description='Please separate words with a comma.')
+    service = SelectField('Show cases with the following service requested', choices=['', 'Child Protection', 'Children on the Move'], validate_choice=False)
+
+    keywords = TextAreaField('Show cases that contain these words', description='Please separate words with a comma.')
+
+    get_high_risk = BooleanField('Show high risk cases only', description='High risk cases have risk score of or over 0.75')
 
     submit = SubmitField('Search')
