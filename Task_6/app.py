@@ -1,6 +1,6 @@
 #!bin/python
-from flask import Flask, session, request, redirect, url_for, render_template
-from form import CaseForm
+from flask import Flask, session, request, redirect, url_for, render_template, jsonify
+from forms import CaseForm, QueryForm
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -10,22 +10,31 @@ import keras
 from keras.models import load_model
 from models.embedding_model import extract_embeddings
 
-
 app = Flask(__name__)
 app.config.from_mapping(
     SECRET_KEY=b'\x94\xf4\xb6Eo\xc4?Kia\x852\xbc\xe9S~\xb7\xd0\xb7#a\x93g\xb8',
     WTF_CSRF_TIME_LIMIT=None,
-    SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost:5432/iss")
+    SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost:5432/iss",
+    SQLALCHEMY_ECHO= True)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 Bootstrap(app)
 
 from sample import x_test
 import dbmodels
+import datetime
 
 risk_model = load_model('models/risk_0.189.h5')
 
-@app.route('/', methods=['GET', 'POST'])
+
+@app.route('/')
+def main_menu():
+    print('Please select option: (1) run models on new case (2) query database.')
+    return redirect('/models')
+
+
+# form page to input a new case and test out ML models
+@app.route('/models', methods=['GET', 'POST'])
 def enter_case():
     case_form = CaseForm()
     if request.method == 'POST' and case_form.validate_on_submit():
@@ -34,10 +43,11 @@ def enter_case():
         file_data.seek(0)
         content = file_data.read().decode('utf-8')
         session['file'] = content
-        return redirect('/result')
+        return redirect('/models/result')
     return render_template('case.html', form=case_form)
 
-@app.route('/result')
+
+@app.route('/models/result')
 def show_result():
     form_input = session['form']
     file_input = session['file']
@@ -64,11 +74,11 @@ def get_keywords(case_text):
 
 
 def get_risk_score(case_text):
-    y_hat = risk_model.predict(np.expand_dims(x_test, axis=0))[0][0]
+    score = risk_model.predict(np.expand_dims(x_test, axis=0))[0][0]
     # x_test risk score should be around 0.75
     # print(type(y_hat), y_hat)
     # <class 'numpy.float32'> 0.75826347
-    return y_hat
+    return format(score, ".2f")
 
 
 def get_similar(case_text):
@@ -77,6 +87,80 @@ def get_similar(case_text):
 
 def translate(case_text):
     return 'trans'
+
+
+# form page to query cases from database
+@app.route('/query', methods=['GET', 'POST'])
+def query_db():
+    query_form = QueryForm()
+    if request.method == 'POST' and query_form.validate_on_submit():
+        if request.form['case_number'] != '':
+            return redirect(url_for('get_case_by_number', case_number_=request.form['case_number']))
+        session['params']=request.form
+        return redirect(url_for('get_all_cases'))
+    else:
+        return render_template('query.html', form=query_form)
+
+
+@app.route('/case/number/<case_number_>')
+def get_case_by_number(case_number_):
+    try:
+        case = dbmodels.Case.query.filter_by(case_number=case_number_).first_or_404(description='There is no data with the following case_number: {}'.format(case_number_))
+        return jsonify(case.serialize())
+    except Exception as e:
+        return str(e)
+
+
+@app.route('/allcases')
+def get_all_cases():
+    params = session['params']
+    try:
+        Case = dbmodels.Case
+        cases = Case.query
+
+        if params['country']:
+            cases = cases.filter_by(country=params['country'])
+
+        if params['get_open_close'] == '0':
+            cases = cases.filter_by(is_closed=False)
+        elif params['get_open_close'] == '1':
+            cases = cases.filter_by(is_closed=True)
+
+        if params['open_date']:
+            full = params['open_date'].split('-')
+            year = int(full[0])
+            month = int(full[1])
+            day = int(full[2])
+            start = datetime.date(year, month, day)
+
+            cases = cases.filter(Case.open_date >= start)
+
+        if params['close_date']:
+            full = params['close_date'].split('-')
+            year = int(full[0])
+            month = int(full[1])
+            day = int(full[2])
+            end = datetime.date(year, month, day)
+
+            cases = cases.filter(Case.close_date >= end)
+
+        if params['service'] == 'Child Protection':
+            cases = cases.filter_by(service='Child Protection')
+        elif params['service'] == 'Children on the Move':
+            cases = cases.filter_by(service='Children on the Move')
+
+        # if params['keywords']:
+
+        # if params['get_high_risk']:
+        #     print('get high true')
+        # #     cases = cases.filter(Case.risk_score >= 0.75)
+
+        cases = cases.all()
+        # print('found cases', str(cases))
+
+        return jsonify([case.serialize() for case in cases])
+    except Exception as e:
+        return str(e)
 
 
 if __name__ == '__main__':
