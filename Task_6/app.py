@@ -88,6 +88,7 @@ def get_abuse_types(case_text):
 
 
 def get_similar(case_text):
+    # extract_embedding's input must be a list containing a string
     return extract_embeddings([case_text])
 
 
