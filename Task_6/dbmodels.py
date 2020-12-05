@@ -15,7 +15,7 @@ class Case(db.Model):
     risk_score = db.Column(db.Float())
     summary = db.Column(db.Text())
     keywords = db.Column(db.ARRAY(db.Text()))
-    topic_word = db.Column(db.String())
+    topic_verbs = db.Column(db.ARRAY(db.String()))
 
     def __init__(
         self,
@@ -30,7 +30,7 @@ class Case(db.Model):
         risk_score = None,
         summary = None,
         keywords = None,
-        topic_word = None
+        topic_verbs = None
     ):
         self.case_number = case_number
         self.open_date = open_date
@@ -43,7 +43,7 @@ class Case(db.Model):
         self.risk_score = risk_score
         self.summary = summary
         self.keywords = keywords
-        self.topic_word = topic_word
+        self.topic_verbs = topic_verbs
 
     def __repr__(self):
         return "<Case {}>".format(self.case_number)
@@ -62,5 +62,5 @@ class Case(db.Model):
             'risk_score': self.risk_score,
             'summary': self.summary,
             'keywords': self.keywords,
-            'topic_word': self.topic_word
+            'topic_verbs': self.topic_verbs
         }
