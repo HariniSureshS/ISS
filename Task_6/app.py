@@ -9,6 +9,7 @@ import tensorflow as tf
 import keras
 from keras.models import load_model
 from models.embedding_model import extract_embeddings
+from models.abuse_types import abuse_types
 
 app = Flask(__name__)
 app.config.from_mapping(
@@ -61,6 +62,7 @@ def show_result():
                            summary=summarize(case_text),
                            keywords=get_keywords(case_text),
                            risk_score=get_risk_score(case_text),
+                           abuse_types=get_abuse_types(case_text),
                            similar_cases=get_similar(case_text),
                            translation=translate(case_text))
 
@@ -79,6 +81,10 @@ def get_risk_score(case_text):
     # print(type(y_hat), y_hat)
     # <class 'numpy.float32'> 0.75826347
     return format(score, ".2f")
+
+
+def get_abuse_types(case_text):
+    return "Two top abuse types of this case are: " + str(abuse_types(case_text))
 
 
 def get_similar(case_text):
