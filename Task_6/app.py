@@ -68,7 +68,7 @@ def show_result():
 
 
 def summarize(case_text):
-    return case_text
+    return 'summary'
 
 
 def get_keywords(case_text):
@@ -76,15 +76,22 @@ def get_keywords(case_text):
 
 
 def get_risk_score(case_text):
-    score = risk_model.predict(np.expand_dims(x_test, axis=0))[0][0]
-    # x_test risk score should be around 0.75
-    # print(type(y_hat), y_hat)
-    # <class 'numpy.float32'> 0.75826347
-    return format(score, ".2f")
+    text_embedding = extract_embeddings([case_text])
+    score = risk_model.predict(text_embedding)[0][0]
+
+    risk_level = None
+    if score <= 0.35:
+        risk_level = 'low'
+    elif score >= 0.75:
+        risk_level = 'high'
+    else:
+        risk_level = 'medium'
+
+    return "This is a {} risk case, with the score of ".format(risk_level) + format(score, ".2f")
 
 
 def get_abuse_types(case_text):
-    return "Two top abuse types of this case are: " + str(abuse_types(case_text))
+    return "Two top abuse types of this case are: " + abuse_types(case_text)[0] + ', ' + abuse_types(case_text)[1]
 
 
 def get_similar(case_text):
@@ -134,12 +141,13 @@ def get_all_cases():
             cases = cases.filter_by(is_closed=True)
 
         if params['open_date']:
-            full = params['open_date'].split('-')
-            year = int(full[0])
-            month = int(full[1])
-            day = int(full[2])
-            start = datetime.date(year, month, day)
+            # full = params['open_date'].split('-')
+            # year = int(full[0])
+            # month = int(full[1])
+            # day = int(full[2])
+            # start = datetime.date(year, month, day)
 
+            # print(Case.open_date)
             cases = cases.filter(Case.open_date >= start)
 
         if params['close_date']:
