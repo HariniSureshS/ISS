@@ -3,6 +3,7 @@ from flask import Flask, session, request, redirect, url_for, render_template, j
 from forms import CaseForm, QueryForm
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import or_, func
 from flask_migrate import Migrate
 import numpy as np
 import tensorflow as tf
@@ -128,6 +129,7 @@ def get_case_by_number(case_number_):
 @app.route('/allcases')
 def get_all_cases():
     params = session['params']
+    print(params['keywords'], type(params['keywords']))
     try:
         Case = dbmodels.Case
         cases = Case.query
@@ -151,14 +153,18 @@ def get_all_cases():
         elif params['service'] == 'Children on the Move':
             cases = cases.filter_by(service='Children on the Move')
 
-        # if params['keywords']:
+        if params['keywords']:
+            keywords = params['keywords'].split(",")
+            for keyword in keywords:
+                keyword = keyword.strip().lower()
+            cases = cases.filter(or_(func.lower(Case.case_text).contains(word) for word in keywords))
 
         # if params['get_high_risk']:
         #     print('get high true')
         # #     cases = cases.filter(Case.risk_score >= 0.75)
 
         cases = cases.all()
-        # print('found cases', str(cases))
+        print(len(cases))
 
         return jsonify([case.serialize() for case in cases])
     except Exception as e:
