@@ -3,6 +3,7 @@ from flask import Flask, session, request, redirect, url_for, render_template, j
 from forms import CaseForm, QueryForm
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+from flask_babel import Babel,_
 from sqlalchemy import or_, func
 from flask_migrate import Migrate
 import numpy as np
@@ -18,8 +19,14 @@ app.config.from_mapping(
     WTF_CSRF_TIME_LIMIT=None,
     SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost:5432/iss",
     SQLALCHEMY_ECHO= True)
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+babel = Babel(app)
+LANGUAGES = {
+    'en' : 'English',
+    'fr' : 'French'
+}
 Bootstrap(app)
 
 from sample import x_test
@@ -48,6 +55,27 @@ def enter_case():
         return redirect('/models/result')
     return render_template('case.html', form=case_form)
 
+@app.route('/language/<language>')
+def set_language(language=None):
+    session['language'] = language
+    return redirect(url_for('enter_case'))
+
+@babel.localeselector
+def get_locale():
+    try:
+        language = session['language']
+    except KeyError:
+        language = None
+    if language is not None:
+        print(language)
+        return language
+    return request.accept_languages.best_match(LANGUAGES.keys())
+
+@app.context_processor
+def inject_conf_var():
+    return dict(
+        AVAILABLE_LANGUAGES=LANGUAGES,
+        CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(LANGUAGES.keys())))
 
 @app.route('/models/result')
 def show_result():

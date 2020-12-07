@@ -2,13 +2,13 @@ from wtforms import SubmitField, StringField, RadioField, BooleanField, DateFiel
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 import datetime
-
+from flask_babel import lazy_gettext as _
 class CaseForm(FlaskForm):
-    case_text = TextAreaField('Case Text', description='Enter service(s) requested, background information and assessment (if any)')
+    case_text = TextAreaField(_('Case Text'), description=_('Enter service(s) requested, background information and assessment (if any)'))
 
-    case_upload = FileField('File', description='Upload a case file or supplementary document', validators=[FileAllowed(['txt'],'txt file only')])
+    case_upload = FileField(_('File'), description=_('Upload a case file or supplementary document'), validators=[FileAllowed(['txt'],'txt file only')])
 
-    submit = SubmitField('Submit')
+    submit = SubmitField(_('Submit'))
 
 class QueryForm(FlaskForm):
     get_open_close = RadioField(choices=[[0, 'Show open cases only'], [1, 'Show closed cases only'], [2, 'Show both open and closed cases']], default=2)
