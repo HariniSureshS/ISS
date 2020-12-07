@@ -129,7 +129,6 @@ def get_case_by_number(case_number_):
 @app.route('/allcases')
 def get_all_cases():
     params = session['params']
-    print(params['keywords'], type(params['keywords']))
     try:
         Case = dbmodels.Case
         cases = Case.query
@@ -159,12 +158,11 @@ def get_all_cases():
                 keyword = keyword.strip().lower()
             cases = cases.filter(or_(func.lower(Case.case_text).contains(word) for word in keywords))
 
-        # if params['get_high_risk']:
-        #     print('get high true')
-        # #     cases = cases.filter(Case.risk_score >= 0.75)
+        if 'get_high_risk' in params:
+            cases = cases.filter(Case.risk_score >= 0.75)
 
         cases = cases.all()
-        print(len(cases))
+        # print("Total of {} cases were found!".format(len(cases)))
 
         return jsonify([case.serialize() for case in cases])
     except Exception as e:
