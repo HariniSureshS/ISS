@@ -28,4 +28,23 @@ To run the app locally:
 ```
 $ flask run
 ```
+To enable debugging mode while running the app locally:
+```
+$ python3 app.py
+```
+#### Database
+You'll need PostgreSQL >= 11.6.
 
+To create a local database:
+```
+$ createdb iss
+```
+To update the model:
+```
+$ flask db migrate
+$ flask db upgrade
+```
+To seed the model:
+```
+$ python3 seed.py seed
+```
