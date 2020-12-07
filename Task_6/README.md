@@ -6,7 +6,7 @@
 
 ### For Developers
 
-This app using python version 3.8.
+This app uses python version 3.8.
 
 Create and activate virtual environment in this (Task_6) directory:
 ```
