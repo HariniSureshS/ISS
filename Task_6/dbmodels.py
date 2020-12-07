@@ -5,9 +5,9 @@ class Case(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     case_number = db.Column(db.String())
-    open_date = db.Column(db.Date())
+    open_date = db.Column(db.String())
     is_closed = db.Column(db.Boolean())
-    close_date = db.Column(db.Date())
+    close_date = db.Column(db.String())
     country = db.Column(db.String())
     service = db.Column(db.String())
     case_text = db.Column(db.Text())

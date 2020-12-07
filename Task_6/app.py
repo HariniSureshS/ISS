@@ -141,23 +141,10 @@ def get_all_cases():
             cases = cases.filter_by(is_closed=True)
 
         if params['open_date']:
-            # full = params['open_date'].split('-')
-            # year = int(full[0])
-            # month = int(full[1])
-            # day = int(full[2])
-            # start = datetime.date(year, month, day)
-
-            # print(Case.open_date)
-            cases = cases.filter(Case.open_date >= start)
+            cases = cases.filter(Case.open_date >= params['open_date'])
 
         if params['close_date']:
-            full = params['close_date'].split('-')
-            year = int(full[0])
-            month = int(full[1])
-            day = int(full[2])
-            end = datetime.date(year, month, day)
-
-            cases = cases.filter(Case.close_date >= end)
+            cases = cases.filter(Case.close_date >= params['close_date'])
 
         if params['service'] == 'Child Protection':
             cases = cases.filter_by(service='Child Protection')
