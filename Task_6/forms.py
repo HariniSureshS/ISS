@@ -6,7 +6,7 @@ from flask_babel import lazy_gettext as _
 class CaseForm(FlaskForm):
     case_text = TextAreaField(_('Case Text'), description=_('Enter service(s) requested, background information and assessment (if any)'))
 
-    case_upload = FileField(_('File'), description=_('Upload a case file or supplementary document'), validators=[FileAllowed(['txt'],'txt file only')])
+    case_upload = FileField(_('File'), description=_('Upload a case file or supplementary document'), validators=[FileAllowed(['txt'],_('txt file only'))])
 
     submit = SubmitField(_('Submit'))
 
