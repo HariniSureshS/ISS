@@ -1,39 +1,12 @@
 {% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {%
 block title %}Case Information{% endblock %} {% block content %}
 <div class="container">
-  <div class='lang_container'>
-  <a class='dropdown-item' href='/language/en'>English</a>
-  <a class='dropdown-item' href='/language/fr'>French</a>
-  </div>
-  <style>
-    .lang_container{
-      position: absolute;
-      top: 0px;
-      right: 100px;
-    }
-  </style>
-  <h3>{{ _('Enter case information') }}</h3>
+  <h3>Enter case information</h3>
   <hr />
-  <form action= "{{ url_for('enter_case') }}" method='POST'>
-  {{ _(form.case_text.label) }}<br>
-  {{ form.case_text(cols='50', rows='4', id='larger') }}<br>
-  {{ _(form.case_text.description) }}<br><br>
-  {{ _(form.case_upload.label) }}<br>
-  {{ form.case_upload() }}
-  {{ _(form.case_upload.description) }}<br><br>
-  {{ _(form.submit.label) }}<br>
-  {{ form.submit() }}<br>
-
-
+  {{ wtf.quick_form(form) }}
   {% for error in form.case_upload.errors%}
-  <div class='alert alert-danger' role='alert'>{{_(error)}}</div>
+  <div class='alert alert-danger' role='alert'>{{error}}</div>
   {% endfor %}
-  </form>
   <hr />
-  <style>
-    #larger {
-      font-size: 20px;
-    }
-  </style>
 </div>
 {% endblock %}

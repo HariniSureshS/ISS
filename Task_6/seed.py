@@ -1,6 +1,7 @@
 from flask_script import Manager
 from app import app, db
 from dbmodels import Case
+import datetime
 import json
 import ast
 import numpy as np
@@ -11,6 +12,17 @@ manager = Manager(app)
 with open('seed.json', 'r') as json_file:
   seed_data = json.load(json_file)
 
+
+def format_date(date_str):
+  if date_str:
+    year = int(date_str.split('-')[0])
+    month = int(date_str.split('-')[1])
+    day = int(date_str.split('-')[2])
+    return datetime.date(year, month, day)
+  else:
+    return None
+
+
 @manager.command
 def seed():
   print("Seeding the database...")
@@ -19,8 +31,8 @@ def seed():
     mapped_seed_data = []
 
     for data in seed_data:
-      if not data['close_date']:
-        data['close_date'] = None
+      data['open_date'] = format_date(data['open_date'])
+      data['close_date'] = format_date(data['close_date'])
       data['embedding'] = np.array(extract_embeddings([data['case_text']])).tolist()[0]
       data['topic_verbs'] = ast.literal_eval(data['topic_verbs'])
 

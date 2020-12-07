@@ -1,0 +1,42 @@
+{% extends "bootstrap/base.html" %} {% block title %}Case Visualization{% endblock%} 
+
+{% block content %}
+<div class="container">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart" id="graph">
+                <script>
+                    var graphs = {{plot | safe}};
+                    Plotly.plot('graph',graphs,{});
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="table">
+                <script>
+                    var table = {{plot1 | safe}};
+                    Plotly.plot('table',table,{});
+                </script>
+            </div>
+        </div>
+    </div>
+   
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="world">
+                <script>
+                    var world = {{plot2 | safe}};
+                    Plotly.plot('world',world,{});
+                    //Plotly.newPlot("world", data, layout, {showLink: false});
+                </script>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

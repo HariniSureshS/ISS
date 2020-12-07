@@ -75,4 +75,4 @@ def abuse_types(case_text):
   first_max = sorted_scores[-1]
   second_max = sorted_scores[-2]
 
-  return [abuse_score_to_type[first_max].capitalize(), abuse_score_to_type[second_max].capitalize()]
+  return [abuse_score_to_type[first_max], abuse_score_to_type[second_max]]
