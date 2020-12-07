@@ -3,6 +3,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 import datetime
 from flask_babel import lazy_gettext as _
+
 class CaseForm(FlaskForm):
     case_text = TextAreaField(_('Case Text'), description=_('Enter service(s) requested, background information and assessment (if any)'))
 

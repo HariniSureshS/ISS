@@ -47,12 +47,13 @@ def main_menu():
 def enter_case():
     case_form = CaseForm()
     if request.method == 'POST' and case_form.validate_on_submit():
-        session['form'] = request.form
-        file_data = request.files.get('case_upload')
-        file_data.seek(0)
-        content = file_data.read().decode('utf-8')
-        session['file'] = content
-        return redirect('/models/result')
+            session['form'] = request.form
+            file_data = request.files.get('case_upload')
+            if file_data:
+                file_data.seek(0)
+                content = file_data.read().decode('utf-8')
+                session['file'] = content
+            return redirect('/models/result')
     return render_template('case.html', form=case_form)
 
 @app.route('/language/<language>')
@@ -190,7 +191,7 @@ def get_all_cases():
             cases = cases.filter(Case.risk_score >= 0.75)
 
         cases = cases.all()
-        # print("Total of {} cases were found!".format(len(cases)))
+        print("Total of {} cases were found!".format(len(cases)))
 
         return jsonify([case.serialize() for case in cases])
     except Exception as e:
