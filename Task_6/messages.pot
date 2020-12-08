@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-12-07 20:29-0500\n"
+"POT-Creation-Date: 2020-12-07 21:03-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
 
-#: forms.py:8
+#: forms.py:8 templates/result.html:7
 msgid "Case Text"
 msgstr ""
 
@@ -105,19 +105,47 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: templates/case.html:18
+#: templates/case.html:19
 msgid "Enter case information"
 msgstr ""
 
-#: templates/query.html:18 templates/query.html:19
+#: templates/query.html:19 templates/query.html:20
 msgid "View all cases"
 msgstr ""
 
-#: templates/query.html:21
+#: templates/query.html:22
 msgid "Filter cases by features"
 msgstr ""
 
-#: templates/query.html:22
+#: templates/query.html:23
 msgid "Fill out as many criteria as needed"
+msgstr ""
+
+#: templates/result.html:4
+msgid "View Result"
+msgstr ""
+
+#: templates/result.html:11
+msgid "Case Summary"
+msgstr ""
+
+#: templates/result.html:15
+msgid "Keywords"
+msgstr ""
+
+#: templates/result.html:19
+msgid "Risk Score"
+msgstr ""
+
+#: templates/result.html:23
+msgid "Abuse Types"
+msgstr ""
+
+#: templates/result.html:27
+msgid "Similar Cases"
+msgstr ""
+
+#: templates/result.html:31
+msgid "Translation in [enter language here]"
 msgstr ""
 

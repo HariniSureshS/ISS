@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-12-07 21:09+0530\n"
-"PO-Revision-Date: 2020-12-07 19:40-0500\n"
+"POT-Creation-Date: 2020-12-07 21:03-0500\n"
+"PO-Revision-Date: 2020-12-07 21:03-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
 
-#: forms.py:8
+#: forms.py:8 templates/result.html:7
 msgid "Case Text"
 msgstr "Texte du cas"
 
@@ -106,19 +106,47 @@ msgstr "Les cas à haut risque ont un score de risque supérieur ou égal à 0,7
 msgid "Search"
 msgstr "Chercher"
 
-#: templates/case.html:15
+#: templates/case.html:19
 msgid "Enter case information"
 msgstr "Entrez les informations sur le cas"
 
-#: templates/query.html:15 templates/query.html:16
+#: templates/query.html:19 templates/query.html:20
 msgid "View all cases"
 msgstr "Voir tous les cas"
 
-#: templates/query.html:18
+#: templates/query.html:22
 msgid "Filter cases by features"
 msgstr "Filtrer les cas par fonctionnalités"
 
-#: templates/query.html:19
+#: templates/query.html:23
 msgid "Fill out as many criteria as needed"
 msgstr "Remplissez autant de critères que nécessaire"
+
+#: templates/result.html:4
+msgid "View Result"
+msgstr "Voir résultat"
+
+#: templates/result.html:11
+msgid "Case Summary"
+msgstr "Résumé du cas"
+
+#: templates/result.html:15
+msgid "Keywords"
+msgstr "Mots clés"
+
+#: templates/result.html:19
+msgid "Risk Score"
+msgstr "Score de risque"
+
+#: templates/result.html:23
+msgid "Abuse Types"
+msgstr "Types d'abus"
+
+#: templates/result.html:27
+msgid "Similar Cases"
+msgstr "Cas similaires"
+
+#: templates/result.html:31
+msgid "Translation in [enter language here]"
+msgstr "Traduction en [entrez la langue ici]"
 

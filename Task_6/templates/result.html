@@ -1,34 +1,34 @@
 {% extends "bootstrap/base.html" %} {% block title %}Case Information{% endblock
 %} {% block content %}
 <div class="container">
-  <h3>View Result</h3>
+  <h3>{{ _('View Result') }}</h3>
   <hr />
   <!-- show input case -->
-  <h4>Case Text</h4>
+  <h4>{{ _('Case Text') }}</h4>
   <p>{{input.case_text}}</p>
   <hr />
   <!-- show summary of case -->
-  <h4>Case Summary</h4>
+  <h4>{{ _('Case Summary') }}</h4>
   {{summary}}
   <hr />
   <!-- show keywords of case -->
-  <h4>Keywords</h4>
+  <h4>{{ _('Keywords') }}</h4>
   {{keywords}}
   <hr />
   <!-- show risk score of case -->
-  <h4>Risk Score</h4>
+  <h4>{{ _('Risk Score') }}</h4>
   {{risk_score}}
   <hr />
   <!-- show main abuse types of case -->
-  <h4>Abuse Types</h4>
+  <h4>{{ _('Abuse Types') }}</h4>
   {{abuse_types}}
   <hr />
   <!-- show top 3 similar cases from database -->
-  <h4>Similar Cases</h4>
+  <h4>{{ _('Similar Cases') }}</h4>
   {{similar_cases}}
   <hr />
   <!-- show translation (how to make language dynamic?) -->
-  <h4>Translation in [enter language here]</h4>
+  <h4>{{ _('Translation in [enter language here]') }}</h4>
   <hr />
 </div>
 {% endblock %}
