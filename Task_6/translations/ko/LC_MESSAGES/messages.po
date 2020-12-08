@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-12-07 21:03-0500\n"
+"POT-Creation-Date: 2020-12-09 00:07+0530\n"
 "PO-Revision-Date: 2020-12-07 21:03-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ko\n"
@@ -24,10 +24,6 @@ msgstr "사건 내용"
 
 #: forms.py:8
 msgid "Enter service(s) requested, background information and assessment (if any)"
-msgstr ""
-
-#: forms.py:8
-msgid "Enter service(s) requested, background information and assessment (if any)"
 msgstr "요구사항, 사건 뒷배경, 진단결과 (있을 경우) 등을 입력해주세요"
 
 #: forms.py:10
@@ -39,74 +35,93 @@ msgid "Upload a case file or supplementary document"
 msgstr "케이스파일 또는 참고자료 (있을 경우) 업로드해주세요"
 
 #: forms.py:10
-msgid ".txt file only"
+#, fuzzy
+msgid "txt file only"
 msgstr ".txt 파일만 가능"
 
 #: forms.py:12
+#, fuzzy
+msgid "Case Text From Language"
+msgstr "케이스 텍스트 언어 선택"
+
+#: forms.py:12
+msgid "Select the case text language"
+msgstr "케이스 텍스트 언어 선택"
+
+#: forms.py:14
+#, fuzzy
+msgid "Case Text To Language"
+msgstr "케이스 텍스트 언어 선택"
+
+#: forms.py:14
+msgid "Select the language to which the text needs to be converted"
+msgstr "텍스트를 변환해야하는 언어를 선택하십시오."
+
+#: forms.py:16
 msgid "Submit"
 msgstr "결과 보기"
 
-#: forms.py:15
+#: forms.py:19
 msgid "Show open cases only"
 msgstr "진행 중인 사건만 보기"
 
-#: forms.py:15
+#: forms.py:19
 msgid "Show closed cases only"
 msgstr "종료된 사건만 보기"
 
-#: forms.py:15
+#: forms.py:19
 msgid "Show both open and closed cases"
 msgstr "모든 사건 보기"
 
-#: forms.py:17
+#: forms.py:21
 msgid "Show a case by case number"
 msgstr "사건 번호로 찾기"
 
-#: forms.py:19
+#: forms.py:23
 msgid "Show cases that opened on or after this date"
 msgstr "입력된 날짜 이후에 열린 사건만 보기"
 
-#: forms.py:19 forms.py:21
+#: forms.py:23 forms.py:25
 msgid "Please follow this format: YYYY-MM-DD"
 msgstr "다음과 같은 형식으로 입력해주세요: 년년년년-월월-일일"
 
-#: forms.py:21
+#: forms.py:25
 msgid "Show cases that closed on or before this date, if closed"
 msgstr "입력된 날짜 이전에 닫힌 사건만 보기"
 
-#: forms.py:23
+#: forms.py:27
 msgid "Show cases where service is requested in this country"
 msgstr "입력된 국가에서 진행된 사건만 보기"
 
-#: forms.py:25
+#: forms.py:29
 msgid "Show cases where the following service is requested"
 msgstr "입력된 서비스가 요청된 사건만 보기"
 
-#: forms.py:25
+#: forms.py:29
 msgid "Child Protection"
 msgstr "아동 보호"
 
-#: forms.py:25
+#: forms.py:29
 msgid "Children on the Move"
 msgstr "이민 아동"
 
-#: forms.py:27
+#: forms.py:31
 msgid "Show cases that contain these words"
 msgstr "입력된 단어를 원문에 포함하고 있는 사건만 보기"
 
-#: forms.py:27
+#: forms.py:31
 msgid "Please separate words with a comma"
 msgstr "여러 단어인 경우 단어 사이에 쉼표를 입력해주세요"
 
-#: forms.py:29
+#: forms.py:33
 msgid "Show high risk cases only"
 msgstr "고위험 사건만 보기"
 
-#: forms.py:29
+#: forms.py:33
 msgid "High risk cases have risk score of or over 0.75"
 msgstr "고위험 사건은 0.75 이상의 위험 지수를 보여줍니다"
 
-#: forms.py:31
+#: forms.py:35
 msgid "Search"
 msgstr "검색"
 

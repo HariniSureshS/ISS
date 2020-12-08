@@ -1,5 +1,6 @@
 import tensorflow_hub as hub
-model = hub.load('https://tfhub.dev/google/universal-sentence-encoder/4')
+import tensorflow_text
+model = hub.load('https://tfhub.dev/google/universal-sentence-encoder-multilingual-large/3')
 
 def extract_embeddings(query):
     return model(query)

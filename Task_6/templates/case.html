@@ -18,10 +18,12 @@ block title %}Case Information{% endblock %} {% block content %}
   </style>
   <h3>{{ _('Enter case information') }}</h3>
   <hr />
-  <form action= "{{ url_for('enter_case') }}" method='POST'>
+  <form action= "{{ url_for('enter_case') }}" method='POST' enctype="multipart/form-data">
     {{ form.csrf_token }}
     {{ wtf.form_field(form.case_text) }}
     {{ wtf.form_field(form.case_upload) }}
+    {{ wtf.form_field(form.from_language) }}
+    {{ wtf.form_field(form.to_language) }}
     {{ wtf.form_field(form.submit) }}
 
     {% for error in form.case_upload.errors%}

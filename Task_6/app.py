@@ -12,6 +12,7 @@ import tensorflow as tf
 import keras
 from keras.models import load_model
 from models.embedding_model import extract_embeddings
+# from models.translation_model import get_translation
 from models.abuse_types import abuse_types
 risk_model = load_model('models/risk_0.189.h5')
 
@@ -37,9 +38,7 @@ import dbmodels
 
 @app.route('/')
 def main_menu():
-    print('Please select option: (1) run models on new case (2) query database.')
-    return redirect('/models')
-
+    return render_template('main.html')
 
 # form page to input a new case and test out ML models
 @app.route('/models', methods=['GET', 'POST'])
@@ -48,11 +47,12 @@ def enter_case():
     if request.method == 'POST' and case_form.validate_on_submit():
             session['form'] = request.form
             file_data = request.files.get('case_upload')
+            print(file_data)
             if file_data:
                 file_data.seek(0)
                 content = file_data.read().decode('utf-8')
                 session['file'] = content
-            return redirect('/models/result')
+                return redirect('/models/result')
     return render_template('case.html', form=case_form)
 
 @app.route('/<page>/language/<language>')
@@ -89,9 +89,10 @@ def show_result():
         case_text = form_input['case_text']
     else:
         case_text = file_input
+        print(case_text)
 
     return render_template('result.html',
-                           input=form_input,
+                           input=case_text,
                            summary=summarize(case_text),
                            keywords=get_keywords(case_text),
                            risk_score=get_risk_score(case_text),
@@ -133,7 +134,13 @@ def get_similar(case_text):
 
 
 def translate(case_text):
-    return 'trans'
+    print('Hi')
+    # form_input = session['form']
+    # if form_input['from_language']!= form_input['to_language']:
+    #     return get_translation(case_text,
+    #                            form_input['from_language'],
+    #                            form_input['to_language'])
+    # return case_text
 
 
 # form page to query cases from database

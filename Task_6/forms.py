@@ -9,6 +9,10 @@ class CaseForm(FlaskForm):
 
     case_upload = FileField(_('File'), description=_('Upload a case file or supplementary document'), validators=[FileAllowed(['txt'],_('txt file only'))])
 
+    from_language = SelectField(_('Case Text From Language'), description=_('Select the case text language'), choices=[('en','English'),('de','German')])
+
+    to_language = SelectField(_('Case Text To Language'), description=_('Select the language to which the text needs to be converted'),choices=[('en','English'),('de','German')])
+
     submit = SubmitField(_('Submit'))
 
 class QueryForm(FlaskForm):

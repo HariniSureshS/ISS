@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-12-07 21:03-0500\n"
+"POT-Creation-Date: 2020-12-09 00:07+0530\n"
 "PO-Revision-Date: 2020-12-07 21:03-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -24,7 +24,9 @@ msgstr "Texte du cas"
 
 #: forms.py:8
 msgid "Enter service(s) requested, background information and assessment (if any)"
-msgstr "Entrez les service(s) demandés, les informations générales et l'évaluation (s’il y a une)"
+msgstr ""
+"Entrez les service(s) demandés, les informations générales et "
+"l'évaluation (s’il y a une)"
 
 #: forms.py:10
 msgid "File"
@@ -35,74 +37,93 @@ msgid "Upload a case file or supplementary document"
 msgstr "Télécharger un dossier ou un document supplémentaire"
 
 #: forms.py:10
-msgid ".txt file only"
+#, fuzzy
+msgid "txt file only"
 msgstr "seulement .txt est autorisé"
 
 #: forms.py:12
+#, fuzzy
+msgid "Case Text From Language"
+msgstr "Sélectionnez la langue du texte du cas"
+
+#: forms.py:12
+msgid "Select the case text language"
+msgstr "Sélectionnez la langue du texte du cas"
+
+#: forms.py:14
+#, fuzzy
+msgid "Case Text To Language"
+msgstr "Sélectionnez la langue du texte du cas"
+
+#: forms.py:14
+msgid "Select the language to which the text needs to be converted"
+msgstr "Sélectionnez la langue dans laquelle le texte doit être converti"
+
+#: forms.py:16
 msgid "Submit"
 msgstr "Soumettre"
 
-#: forms.py:15
+#: forms.py:19
 msgid "Show open cases only"
 msgstr "Afficher uniquement les cas ouverts"
 
-#: forms.py:15
+#: forms.py:19
 msgid "Show closed cases only"
 msgstr "Afficher uniquement les cas fermés"
 
-#: forms.py:15
+#: forms.py:19
 msgid "Show both open and closed cases"
 msgstr "Afficher les dossiers ouverts ou fermés"
 
-#: forms.py:17
+#: forms.py:21
 msgid "Show a case by case number"
 msgstr "Afficher un cas par numéro d’identification"
 
-#: forms.py:19
+#: forms.py:23
 msgid "Show cases that opened on or after this date"
 msgstr "Afficher les cas ouvertes à cette date ou après"
 
-#: forms.py:19 forms.py:21
+#: forms.py:23 forms.py:25
 msgid "Please follow this format: YYYY-MM-DD"
 msgstr "Veuillez suivre ce format: AAAA-MM-JJ"
 
-#: forms.py:21
+#: forms.py:25
 msgid "Show cases that closed on or before this date, if closed"
 msgstr "Afficher les cas fermés à cette date ou avant, s’ils sont fermés"
 
-#: forms.py:23
+#: forms.py:27
 msgid "Show cases where service is requested in this country"
 msgstr "Afficher les cas où le service est demandé dans ce pays"
 
-#: forms.py:25
+#: forms.py:29
 msgid "Show cases where the following service is requested"
 msgstr "Afficher les cas où le service suivant est demandé"
 
-#: forms.py:25
+#: forms.py:29
 msgid "Child Protection"
 msgstr "Protection d’enfant"
 
-#: forms.py:25
+#: forms.py:29
 msgid "Children on the Move"
 msgstr "Enfants en mouvement"
 
-#: forms.py:27
+#: forms.py:31
 msgid "Show cases that contain these words"
 msgstr "Afficher les cas contenant ces mots"
 
-#: forms.py:27
+#: forms.py:31
 msgid "Please separate words with a comma"
 msgstr "Veuillez séparer les mots par une virgule"
 
-#: forms.py:29
+#: forms.py:33
 msgid "Show high risk cases only"
 msgstr "Afficher uniquement les cas à haut risque"
 
-#: forms.py:29
+#: forms.py:33
 msgid "High risk cases have risk score of or over 0.75"
 msgstr "Les cas à haut risque ont un score de risque supérieur ou égal à 0,75"
 
-#: forms.py:31
+#: forms.py:35
 msgid "Search"
 msgstr "Chercher"
 

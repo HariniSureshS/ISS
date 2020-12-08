@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-12-07 21:03-0500\n"
+"POT-Creation-Date: 2020-12-09 00:07+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,70 +38,86 @@ msgid "txt file only"
 msgstr ""
 
 #: forms.py:12
+msgid "Case Text From Language"
+msgstr ""
+
+#: forms.py:12
+msgid "Select the case text language"
+msgstr ""
+
+#: forms.py:14
+msgid "Case Text To Language"
+msgstr ""
+
+#: forms.py:14
+msgid "Select the language to which the text needs to be converted"
+msgstr ""
+
+#: forms.py:16
 msgid "Submit"
 msgstr ""
 
-#: forms.py:15
+#: forms.py:19
 msgid "Show open cases only"
 msgstr ""
 
-#: forms.py:15
+#: forms.py:19
 msgid "Show closed cases only"
 msgstr ""
 
-#: forms.py:15
+#: forms.py:19
 msgid "Show both open and closed cases"
 msgstr ""
 
-#: forms.py:17
+#: forms.py:21
 msgid "Show a case by case number"
 msgstr ""
 
-#: forms.py:19
+#: forms.py:23
 msgid "Show cases that opened on or after this date"
 msgstr ""
 
-#: forms.py:19 forms.py:21
+#: forms.py:23 forms.py:25
 msgid "Please follow this format: YYYY-MM-DD"
 msgstr ""
 
-#: forms.py:21
+#: forms.py:25
 msgid "Show cases that closed on or before this date, if closed"
 msgstr ""
 
-#: forms.py:23
+#: forms.py:27
 msgid "Show cases where service is requested in this country"
 msgstr ""
 
-#: forms.py:25
+#: forms.py:29
 msgid "Show cases where the following service is requested"
 msgstr ""
 
-#: forms.py:25
+#: forms.py:29
 msgid "Child Protection"
 msgstr ""
 
-#: forms.py:25
+#: forms.py:29
 msgid "Children on the Move"
 msgstr ""
 
-#: forms.py:27
+#: forms.py:31
 msgid "Show cases that contain these words"
 msgstr ""
 
-#: forms.py:27
+#: forms.py:31
 msgid "Please separate words with a comma"
 msgstr ""
 
-#: forms.py:29
+#: forms.py:33
 msgid "Show high risk cases only"
 msgstr ""
 
-#: forms.py:29
+#: forms.py:33
 msgid "High risk cases have risk score of or over 0.75"
 msgstr ""
 
-#: forms.py:31
+#: forms.py:35
 msgid "Search"
 msgstr ""
 
