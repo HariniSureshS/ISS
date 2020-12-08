@@ -6,12 +6,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_babel import Babel,_
 from sqlalchemy import or_, func
 from flask_migrate import Migrate
+import datetime
 import numpy as np
 import tensorflow as tf
 import keras
 from keras.models import load_model
 from models.embedding_model import extract_embeddings
 from models.abuse_types import abuse_types
+risk_model = load_model('models/risk_0.189.h5')
 
 app = Flask(__name__)
 app.config.from_mapping(
@@ -29,11 +31,7 @@ LANGUAGES = {
 }
 Bootstrap(app)
 
-from sample import x_test
 import dbmodels
-import datetime
-
-risk_model = load_model('models/risk_0.189.h5')
 
 
 @app.route('/')
@@ -56,10 +54,14 @@ def enter_case():
             return redirect('/models/result')
     return render_template('case.html', form=case_form)
 
-@app.route('/language/<language>')
-def set_language(language=None):
+@app.route('/<page>/language/<language>')
+def set_language(page=None, language=None):
     session['language'] = language
-    return redirect(url_for('enter_case'))
+    print(page)
+    if page == 'models':
+        return redirect(url_for('enter_case'))
+    elif page == 'query':
+        return redirect(url_for('query_db'))
 
 @babel.localeselector
 def get_locale():
@@ -82,7 +84,7 @@ def inject_conf_var():
 def show_result():
     form_input = session['form']
     file_input = session['file']
-    if file_input == "":
+    if not file_input:
         case_text = form_input['case_text']
     else:
         case_text = file_input

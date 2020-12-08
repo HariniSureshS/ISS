@@ -2,8 +2,8 @@
 block title %}Case Information{% endblock %} {% block content %}
 <div class="container">
   <div class='lang_container'>
-  <a class='dropdown-item' href='/language/en'>English</a>
-  <a class='dropdown-item' href='/language/fr'>French</a>
+    <a class='dropdown-item' href='/models/language/en'>English</a>
+    <a class='dropdown-item' href='/models/language/fr'>French</a>
   </div>
   <style>
     .lang_container{
@@ -20,15 +20,10 @@ block title %}Case Information{% endblock %} {% block content %}
     {{ wtf.form_field(form.case_upload) }}
     {{ wtf.form_field(form.submit) }}
 
-  {% for error in form.case_upload.errors%}
-  <div class='alert alert-danger' role='alert'>{{_(error)}}</div>
-  {% endfor %}
+    {% for error in form.case_upload.errors%}
+    <div class='alert alert-danger' role='alert'>{{_(error)}}</div>
+    {% endfor %}
   </form>
   <hr />
-  <style>
-    #larger {
-      font-size: 20px;
-    }
-  </style>
 </div>
 {% endblock %}

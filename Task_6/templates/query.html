@@ -1,12 +1,34 @@
 {% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {%
   block title %}Search Database{% endblock %} {% block content %}
   <div class="container">
-    <h3>View all cases</h3>
-    <a href="/allcases">View all cases</a>
+    <div class='lang_container'>
+      <a class='dropdown-item' href='/query/language/en'>English</a>
+      <a class='dropdown-item' href='/query/language/fr'>French</a>
+    </div>
+    <style>
+      .lang_container{
+        position: absolute;
+        top: 0px;
+        right: 100px;
+      }
+    </style>
+    <h3>{{ _('View all cases') }}</h3>
+    <a href="/allcases">{{ _('View all cases') }}</a>
     <hr />
-    <h3>Filter cases by features</h3>
-    <h5>Fill out as many criteria as needed</h5>
-    {{ wtf.quick_form(form) }}
+    <h3>{{ _('Filter cases by features') }}</h3>
+    <h5>{{ _('Fill out as many criteria as needed') }}</h5>
+    <form action="{{ url_for('query_db') }}" method='POST'>
+      {{ form.csrf_token }}
+      {{ wtf.form_field(form.get_open_close) }}
+      {{ wtf.form_field(form.case_number) }}
+      {{ wtf.form_field(form.open_date) }}
+      {{ wtf.form_field(form.close_date) }}
+      {{ wtf.form_field(form.country) }}
+      {{ wtf.form_field(form.service) }}
+      {{ wtf.form_field(form.keywords) }}
+      {{ wtf.form_field(form.get_high_risk) }}
+      {{ wtf.form_field(form.submit) }}
+    </form>
     <hr />
   </div>
   {% endblock %}

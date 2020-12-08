@@ -17,31 +17,114 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
 
-#: forms.py:7
+#: forms.py:8
 msgid "Case Text"
 msgstr ""
 
-#: forms.py:7
+#: forms.py:8
 msgid "Enter service(s) requested, background information and assessment (if any)"
 msgstr ""
 
-#: forms.py:9
+#: forms.py:10
 msgid "File"
 msgstr ""
 
-#: forms.py:9
+#: forms.py:10
 msgid "Upload a case file or supplementary document"
 msgstr ""
 
-#: forms.py:9
+#: forms.py:10
 msgid "txt file only"
 msgstr ""
 
-#: forms.py:11
+#: forms.py:12
 msgid "Submit"
+msgstr ""
+
+#: forms.py:15
+msgid "Show open cases only"
+msgstr ""
+
+#: forms.py:15
+msgid "Show closed cases only"
+msgstr ""
+
+#: forms.py:15
+msgid "Show both open and closed cases"
+msgstr ""
+
+#: forms.py:17
+msgid "Show a case by case number"
+msgstr ""
+
+#: forms.py:19
+msgid "Show cases that opened on or after this date"
+msgstr ""
+
+#: forms.py:19
+msgid "Please follow this format: YYYY-MM-DD"
+msgstr ""
+
+#: forms.py:21
+msgid "Show cases that closed on or before this date, if closed"
+msgstr ""
+
+#: forms.py:21
+msgid "Please follow this format: YYYY-MM-DD"
+msgstr ""
+
+#: forms.py:23
+msgid "Show cases where service is requested in this country"
+msgstr ""
+
+#: forms.py:25
+msgid "Show cases with the following service requested"
+msgstr ""
+
+#: forms.py:25
+msgid "Child Protection"
+msgstr ""
+
+#: forms.py:25
+msgid "Children on the Move"
+msgstr ""
+
+#: forms.py:27
+msgid "Show cases that contain these words"
+msgstr ""
+
+#: forms.py:27
+msgid "Please separate words with a comma."
+msgstr ""
+
+#: forms.py:29
+msgid "Show high risk cases only"
+msgstr ""
+
+#: forms.py:29
+msgid "High risk cases have risk score of or over 0.75"
+msgstr ""
+
+#: forms.py:31
+msgid "Search"
 msgstr ""
 
 #: templates/case.html:15
 msgid "Enter case information"
 msgstr ""
 
+#: templates/query.html:15
+msgid "View all cases"
+msgstr ""
+
+#: templates/query.html:16
+msgid "View all cases"
+msgstr ""
+
+#: templates/query.html:18
+msgid "Filter cases by features"
+msgstr ""
+
+#: templates/query.html:19
+msgid "Fill out as many criteria as needed"
+msgstr ""

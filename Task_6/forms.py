@@ -12,20 +12,20 @@ class CaseForm(FlaskForm):
     submit = SubmitField(_('Submit'))
 
 class QueryForm(FlaskForm):
-    get_open_close = RadioField(choices=[[0, 'Show open cases only'], [1, 'Show closed cases only'], [2, 'Show both open and closed cases']], default=2)
+    get_open_close = RadioField(choices=[[0, _('Show open cases only')], [1, _('Show closed cases only')], [2, _('Show both open and closed cases')]], default=2)
 
-    case_number = StringField('Show a case by case number')
+    case_number = StringField(_('Show a case by case number'))
 
-    open_date = DateField('Show cases that opened on or after this date', description='Please follow this format: YYYY-MM-DD', validators=[validators.Optional()])
+    open_date = DateField(_('Show cases that opened on or after this date'), description=_('Please follow this format: YYYY-MM-DD'))
 
-    close_date = DateField('Show cases that closed on or before this date, if closed', description='Please follow this format: YYYY-MM-DD', validators=[validators.Optional()])
+    close_date = DateField(_('Show cases that closed on or before this date, if closed'), description=_('Please follow this format: YYYY-MM-DD'), validators=[validators.Optional()])
 
-    country = StringField('Show cases where service is requested in this country')
+    country = StringField(_('Show cases where service is requested in this country'))
 
-    service = SelectField('Show cases with the following service requested', choices=['', 'Child Protection', 'Children on the Move'], validate_choice=False)
+    service = SelectField(_('Show cases with the following service requested'), choices=['', _('Child Protection'), _('Children on the Move')], validate_choice=False)
 
-    keywords = TextAreaField('Show cases that contain these words', description='Please separate words with a comma.')
+    keywords = TextAreaField(_('Show cases that contain these words'), description=_('Please separate words with a comma.'))
 
-    get_high_risk = BooleanField('Show high risk cases only', description='High risk cases have risk score of or over 0.75')
+    get_high_risk = BooleanField(_('Show high risk cases only'), description=_('High risk cases have risk score of or over 0.75'))
 
-    submit = SubmitField('Search')
+    submit = SubmitField(_('Search'))
