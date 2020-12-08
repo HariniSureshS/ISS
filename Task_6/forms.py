@@ -16,15 +16,15 @@ class QueryForm(FlaskForm):
 
     case_number = StringField(_('Show a case by case number'))
 
-    open_date = DateField(_('Show cases that opened on or after this date'), description=_('Please follow this format: YYYY-MM-DD'))
+    open_date = DateField(_('Show cases that opened on or after this date'), description=_('Please follow this format: YYYY-MM-DD'), validators=[validators.Optional()])
 
     close_date = DateField(_('Show cases that closed on or before this date, if closed'), description=_('Please follow this format: YYYY-MM-DD'), validators=[validators.Optional()])
 
     country = StringField(_('Show cases where service is requested in this country'))
 
-    service = SelectField(_('Show cases with the following service requested'), choices=['', _('Child Protection'), _('Children on the Move')], validate_choice=False)
+    service = SelectField(_('Show cases where the following service is requested'), choices=['', _('Child Protection'), _('Children on the Move')], validate_choice=False)
 
-    keywords = TextAreaField(_('Show cases that contain these words'), description=_('Please separate words with a comma.'))
+    keywords = TextAreaField(_('Show cases that contain these words'), description=_('Please separate words with a comma'))
 
     get_high_risk = BooleanField(_('Show high risk cases only'), description=_('High risk cases have risk score of or over 0.75'))
 

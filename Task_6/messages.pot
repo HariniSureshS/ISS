@@ -34,7 +34,7 @@ msgid "Upload a case file or supplementary document"
 msgstr ""
 
 #: forms.py:10
-msgid "txt file only"
+msgid ".txt file only"
 msgstr ""
 
 #: forms.py:12
@@ -61,7 +61,7 @@ msgstr ""
 msgid "Show cases that opened on or after this date"
 msgstr ""
 
-#: forms.py:19
+#: forms.py:19 forms.py:21
 msgid "Please follow this format: YYYY-MM-DD"
 msgstr ""
 
@@ -69,16 +69,12 @@ msgstr ""
 msgid "Show cases that closed on or before this date, if closed"
 msgstr ""
 
-#: forms.py:21
-msgid "Please follow this format: YYYY-MM-DD"
-msgstr ""
-
 #: forms.py:23
 msgid "Show cases where service is requested in this country"
 msgstr ""
 
 #: forms.py:25
-msgid "Show cases with the following service requested"
+msgid "Show cases where the following service is requested"
 msgstr ""
 
 #: forms.py:25
@@ -94,7 +90,7 @@ msgid "Show cases that contain these words"
 msgstr ""
 
 #: forms.py:27
-msgid "Please separate words with a comma."
+msgid "Please separate words with a comma"
 msgstr ""
 
 #: forms.py:29
@@ -113,11 +109,7 @@ msgstr ""
 msgid "Enter case information"
 msgstr ""
 
-#: templates/query.html:15
-msgid "View all cases"
-msgstr ""
-
-#: templates/query.html:16
+#: templates/query.html:15 templates/query.html:16
 msgid "View all cases"
 msgstr ""
 
