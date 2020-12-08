@@ -24,10 +24,6 @@ msgstr "사건 내용"
 
 #: forms.py:8
 msgid "Enter service(s) requested, background information and assessment (if any)"
-msgstr ""
-
-#: forms.py:8
-msgid "Enter service(s) requested, background information and assessment (if any)"
 msgstr "요구사항, 사건 뒷배경, 진단결과 (있을 경우) 등을 입력해주세요"
 
 #: forms.py:10
