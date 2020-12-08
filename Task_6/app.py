@@ -27,7 +27,8 @@ migrate = Migrate(app, db)
 babel = Babel(app)
 LANGUAGES = {
     'en' : 'English',
-    'fr' : 'French'
+    'fr' : 'French',
+    'ko' : 'Korean'
 }
 Bootstrap(app)
 

@@ -2,13 +2,17 @@
   block title %}Search Database{% endblock %} {% block content %}
   <div class="container">
     <div class='lang_container'>
-      <a class='dropdown-item' href='/query/language/en'>English</a>
-      <a class='dropdown-item' href='/query/language/fr'>French</a>
+      <select class="form-control" onchange="javascript:location.href = this.value;">
+        <option>Language</option>
+        <option value='/query/language/en'>English</option>
+        <option value='/query/language/fr'>French</option>
+        <option value='/query/language/ko'>Korean</option>
+      </select>
     </div>
     <style>
       .lang_container{
         position: absolute;
-        top: 0px;
+        margin-top: 10px;
         right: 100px;
       }
     </style>
