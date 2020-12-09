@@ -57,7 +57,11 @@ def enter_case():
                 file_data.seek(0)
                 content = file_data.read().decode('utf-8')
                 session['file'] = content
-            return redirect('/models/result')
+                return redirect('/models/result')
+            else:
+                content = request.values.get('case_text')
+                session['file']= content
+                return redirect('/models/result')
     return render_template('case.html', form=case_form)
 
 
@@ -92,13 +96,9 @@ def inject_conf_var():
 
 @app.route('/models/result')
 def show_result():
+    
     form_input = session['form']
-    file_input = session['file']
-    if not file_input:
-        case_text = form_input['case_text']
-    else:
-        case_text = file_input
-        print(case_text)
+    case_text = session['file']
 
     return render_template('result.html',
                            input=case_text,
@@ -181,7 +181,10 @@ def get_case_by_number(case_number_):
 
 @app.route('/allcases')
 def get_all_cases():
-    params = session['params']
+    
+    params={}
+    if 'params' in session.keys(): params = session['params']
+    
     try:
         Case = dbmodels.Case
         cases = Case.query
