@@ -2,26 +2,26 @@
 from flask import Flask, session, request, redirect, url_for, render_template, jsonify
 from forms import CaseForm, QueryForm
 from flask_bootstrap import Bootstrap
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, BaseQuery
 from flask_babel import Babel,_
 from sqlalchemy import or_, func
 from flask_migrate import Migrate
 import datetime
 import numpy as np
-import tensorflow as tf
-import keras
-from keras.models import load_model
-from models.embedding_model import extract_embeddings
-# from models.translation_model import get_translation
-from models.abuse_types import abuse_types
-from models.keyword_extractor import KeywordExtractor
-risk_model = load_model('models/risk_0.189.h5')
+
+#import tensorflow as tf
+#import keras
+#from keras.models import load_model
+#from models.embedding_model import extract_embeddings
+#from models.translation_model import get_translation
+#from models.abuse_types import abuse_types
+#risk_model = load_model('models/risk_0.189.h5')
 
 app = Flask(__name__)
 app.config.from_mapping(
     SECRET_KEY=b'\x94\xf4\xb6Eo\xc4?Kia\x852\xbc\xe9S~\xb7\xd0\xb7#a\x93g\xb8',
     WTF_CSRF_TIME_LIMIT=None,
-    SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost:5432/iss",
+    SQLALCHEMY_DATABASE_URI="postgres://vaeasdshrlvcczzizy:6663167d4ac12d1c5f3c4@ec2-52-44-55-63.compute-1.amazonaws.com:5432/d40gtns3k9jeo6",
     SQLALCHEMY_ECHO= True)
 app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
 db = SQLAlchemy(app)
@@ -30,20 +30,23 @@ babel = Babel(app)
 LANGUAGES = {
     'en' : 'English',
     'fr' : 'French',
-    'de' : 'German',
-    'zh' : 'Chinese',
-    'ko' : 'Korean',
-    'id' : 'Indonesian'
+    'ko' : 'Korean'
 }
 Bootstrap(app)
 
-import dbmodels
+from sqlalchemy import Table
 
+engine = db.get_engine()
+metadata = db.metadata
+cases_db = Table('cases', metadata, autoload=True, autoload_with=engine)
+cols_nms=[i.description for i in cases_db.c]
+
+Session = db.create_session(options={'bind':engine})
+session_db = Session()
 
 @app.route('/')
 def main_menu():
     return render_template('main.html')
-
 
 # form page to input a new case and test out ML models
 @app.route('/models', methods=['GET', 'POST'])
@@ -52,14 +55,18 @@ def enter_case():
     if request.method == 'POST' and case_form.validate_on_submit():
             session['form'] = request.form
             file_data = request.files.get('case_upload')
-            print(file_data)
+            
             if file_data:
                 file_data.seek(0)
                 content = file_data.read().decode('utf-8')
                 session['file'] = content
-            return redirect('/models/result')
-    return render_template('case.html', form=case_form)
+                return redirect('/models/result')
+            else:
+                content = request.values.get('case_text')
+                session['file']= content
+                return redirect('/models/result')
 
+    return render_template('case.html', form=case_form)
 
 @app.route('/<page>/language/<language>')
 def set_language(page=None, language=None):
@@ -69,7 +76,6 @@ def set_language(page=None, language=None):
         return redirect(url_for('enter_case'))
     elif page == 'query':
         return redirect(url_for('query_db'))
-
 
 @babel.localeselector
 def get_locale():
@@ -82,31 +88,24 @@ def get_locale():
         return language
     return request.accept_languages.best_match(LANGUAGES.keys())
 
-
 @app.context_processor
 def inject_conf_var():
     return dict(
         AVAILABLE_LANGUAGES=LANGUAGES,
         CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(LANGUAGES.keys())))
 
-
 @app.route('/models/result')
 def show_result():
     form_input = session['form']
-    file_input = session['file']
-    if not file_input:
-        case_text = form_input['case_text']
-    else:
-        case_text = file_input
-        print(case_text)
+    case_text = session['file']
 
     return render_template('result.html',
                            input=case_text,
                            summary=summarize(case_text),
                            keywords=get_keywords(case_text),
-                           risk_score=get_risk_score(case_text),
-                           abuse_types=get_abuse_types(case_text),
-                           similar_cases=get_similar(case_text),
+                           #risk_score=get_risk_score(case_text),
+                           #abuse_types=get_abuse_types(case_text),
+                           #similar_cases=get_similar(case_text),
                            translation=translate(case_text))
 
 
@@ -115,10 +114,7 @@ def summarize(case_text):
 
 
 def get_keywords(case_text):
-    extractor = KeywordExtractor()
-    prep_text = extractor.preprocess_text(case_text)
-    keywords = list(set(extractor.keyword_extraction(prep_text)))
-    return keywords
+    return 'hi'
 
 
 def get_risk_score(case_text):
@@ -132,8 +128,6 @@ def get_risk_score(case_text):
         risk_level = 'high'
     else:
         risk_level = 'medium'
-
-    # TODO: get words with high similarity to 8 abuse types, show as explicit evidence that potentially affected the risk score
 
     return "This is a {} risk case, with the score of ".format(risk_level) + format(score, ".2f")
 
@@ -173,51 +167,55 @@ def query_db():
 @app.route('/case/number/<case_number_>')
 def get_case_by_number(case_number_):
     try:
-        case = dbmodels.Case.query.filter_by(case_number=case_number_).first_or_404(description='There is no data with the following case_number: {}'.format(case_number_))
-        return jsonify(case.serialize())
+        case = BaseQuery(cases_db, session=session_db).filter_by(case_number=case_number_).first_or_404(description='There is no data with the following case_number: {}'.format(case_number_))
+        return render_template('tablify.html',allFoundCases=[case], col2name=cols_nms, numCases=1)
+
     except Exception as e:
         return str(e)
 
 
 @app.route('/allcases')
 def get_all_cases():
-    params = session['params']
+    
+    params={}
+    if 'params' in session.keys(): params = session['params']
+    
     try:
-        Case = dbmodels.Case
-        cases = Case.query
-
+        cases = session_db.query(cases_db)
+        
         if params['country']:
-            cases = cases.filter_by(country=params['country'])
-
+            cases = cases.filter(cases_db.c.country==params['country'])
+        
         if params['get_open_close'] == '0':
-            cases = cases.filter_by(is_closed=False)
+            cases = cases.filter(cases_db.c.is_closed==False)
         elif params['get_open_close'] == '1':
-            cases = cases.filter_by(is_closed=True)
+            cases = cases.filter(cases_db.c.is_closed==True)
 
         if params['open_date']:
-            cases = cases.filter(Case.open_date >= params['open_date'])
+            cases = cases.filter(cases_db.c.open_date >= params['open_date'])
 
         if params['close_date']:
-            cases = cases.filter(Case.close_date >= params['close_date'])
+            cases = cases.filter(cases_db.c.close_date >= params['close_date'])
 
-        if params['service'] == 'Child Protection':
-            cases = cases.filter_by(service='Child Protection')
-        elif params['service'] == 'Children on the Move':
-            cases = cases.filter_by(service='Children on the Move')
+        #if params['service'] == 'Child Protection':
+            #cases = cases.filter(case_db.c.service=='Child Protection')
+        #elif params['service'] == 'Children on the Move':
+            #cases = cases.filter(case_db.c.service=='Children on the Move')
 
         if params['keywords']:
             keywords = params['keywords'].split(",")
             for keyword in keywords:
                 keyword = keyword.strip().lower()
-            cases = cases.filter(or_(func.lower(Case.case_text).contains(word) for word in keywords))
+            cases = cases.filter(or_(func.lower(cases_db.c.case_text).contains(word) for word in keywords))
 
-        if 'get_high_risk' in params:
-            cases = cases.filter(Case.risk_score >= 0.75)
+        #if 'get_high_risk' in params:
+            #cases = cases.filter(case_db.c.risk_score >= 0.75)
 
-        cases = cases.all()
-        print("Total of {} cases were found!".format(len(cases)))
+        #cases = cases.all()
+        #print("Total of {} cases were found!".format(len(cases)))
+        
+        return render_template('tablify.html',allFoundCases=cases.all(), col2name=cols_nms, numCases=len(cases.all()))
 
-        return jsonify([case.serialize() for case in cases])
     except Exception as e:
         return str(e)
 

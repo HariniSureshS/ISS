@@ -1,10 +1,27 @@
-<!DOCTYPE html>
-<h2>Welcome to Omdena ISS</h2>
-<div class='container'>
-    <h4>Please choose an option: <br>
-       <ol>
-           <li><a href='/models'>run models on new case</a> </li>
-           <li><a href='/query'>query database</a></li>
-    </ol>
-    </ol> </h4>
+{% extends "bootstrap/base.html" %} {% block title %}Welcome to Omdena ISS{% endblock
+%} 
+{% block content %}
+<div class="container">
+<div class="col-md-8 offset-md-2">
+    <div class="card">
+    <h1 class="card-header">
+        Welcome to Omdena ISS
+    </h1>
+    <div class="card-body">
+        <h3 class="card-title"> Please choose an option: </h3>
+            <a class="btn btn-primary" href='/models'>run models on new case</a>
+            <a class="btn btn-primary" href='/query'>query database</a>
+    </div>
+    </div>
 </div>
+</div>
+
+<!--<h1>Welcome to Omdena ISS</h1>
+<div class='container'>
+    <h2>Please choose an option: <br>
+       
+           <a class="btn btn-primary" href='/models'>run models on new case</a>
+           <a class="btn btn-primary" href='/query'>query database</a>
+    </h2>
+</div>
+{% endblock %}-->

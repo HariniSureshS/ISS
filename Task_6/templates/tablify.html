@@ -1,0 +1,33 @@
+{% extends "bootstrap/base.html" %} {% block title %}Found Cases{% endblock
+%} 
+
+{% block content %}
+<div class="col-md-8 offset-md-2">
+    <h1 class="card-header">
+       Total of {{ numCases}} case/s were found!
+    </h1>
+<div>
+<table class="table table-striped">
+
+{% for result in allFoundCases %}
+
+ <thead class="thead-light">
+    <tr>
+      <th> </th>    
+      <th>Case number: {{result[0]}} </th>
+    </tr>
+    
+  </thead>
+    <tbody>
+        {% for val in result %}
+            {% if col2name[loop.index0]!='case_number' %}
+            <tr>
+                <th>{{ col2name[loop.index0] }}</th>
+                <td>{{ val }}</td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+{% endfor %}
+</table>
+{% endblock %}
