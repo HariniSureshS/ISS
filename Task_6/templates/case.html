@@ -20,6 +20,7 @@ block title %}Case Information{% endblock %} {% block content %}
     }
   </style>
   <h3>{{ _('Enter case information') }}</h3>
+  <h5>{{ _('Please enter only one field between Case Text and File. If you fill in both fields, only File will be read.') }}</h5>
   <hr />
   <form action= "{{ url_for('enter_case') }}" method='POST' enctype="multipart/form-data">
     {{ form.csrf_token }}

@@ -52,16 +52,13 @@ def enter_case():
     if request.method == 'POST' and case_form.validate_on_submit():
             session['form'] = request.form
             file_data = request.files.get('case_upload')
-            print(file_data)
             if file_data:
                 file_data.seek(0)
                 content = file_data.read().decode('utf-8')
                 session['file'] = content
-                return redirect('/models/result')
-            else:
-                content = request.values.get('case_text')
-                session['file']= content
-                return redirect('/models/result')
+            elif not request.form['case_text']:
+                return render_template('case.html', form=case_form)
+            return redirect('/models/result')
     return render_template('case.html', form=case_form)
 
 
@@ -96,9 +93,20 @@ def inject_conf_var():
 
 @app.route('/models/result')
 def show_result():
-    
-    form_input = session['form']
-    case_text = session['file']
+
+    form_input = None
+    file_input = None
+
+    if 'form' in session.keys():
+        form_input = session['form']
+
+    if 'file' in session.keys():
+        file_input = session['file']
+
+    if file_input:
+        case_text = file_input
+    else:
+        case_text = form_input.case_text
 
     return render_template('result.html',
                            input=case_text,
@@ -181,10 +189,11 @@ def get_case_by_number(case_number_):
 
 @app.route('/allcases')
 def get_all_cases():
-    
-    params={}
-    if 'params' in session.keys(): params = session['params']
-    
+
+    params = {}
+    if 'params' in session.keys():
+        params = session['params']
+
     try:
         Case = dbmodels.Case
         cases = Case.query
