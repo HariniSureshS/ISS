@@ -106,7 +106,7 @@ def show_result():
     if file_input:
         case_text = file_input
     else:
-        case_text = form_input.case_text
+        case_text = form_input['case_text']
 
     return render_template('result.html',
                            input=case_text,
