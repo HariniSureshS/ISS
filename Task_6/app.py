@@ -12,6 +12,7 @@ import tensorflow as tf
 import keras
 from keras.models import load_model
 from models.embedding_model import extract_embeddings
+from models.summarizer import get_summarizer
 # from models.translation_model import get_translation
 from models.abuse_types import abuse_types
 risk_model = load_model('models/risk_0.189.h5')
@@ -102,7 +103,7 @@ def show_result():
 
 
 def summarize(case_text):
-    return 'summary'
+    return get_summarizer(case_text)
 
 
 def get_keywords(case_text):
