@@ -14,6 +14,7 @@ from keras.models import load_model
 from models.embedding_model import extract_embeddings
 # from models.translation_model import get_translation
 from models.abuse_types import abuse_types
+from models.keyword_extractor import KeywordExtractor
 risk_model = load_model('models/risk_0.189.h5')
 
 app = Flask(__name__)
@@ -43,6 +44,7 @@ import dbmodels
 def main_menu():
     return render_template('main.html')
 
+
 # form page to input a new case and test out ML models
 @app.route('/models', methods=['GET', 'POST'])
 def enter_case():
@@ -55,8 +57,9 @@ def enter_case():
                 file_data.seek(0)
                 content = file_data.read().decode('utf-8')
                 session['file'] = content
-                return redirect('/models/result')
+            return redirect('/models/result')
     return render_template('case.html', form=case_form)
+
 
 @app.route('/<page>/language/<language>')
 def set_language(page=None, language=None):
@@ -66,6 +69,7 @@ def set_language(page=None, language=None):
         return redirect(url_for('enter_case'))
     elif page == 'query':
         return redirect(url_for('query_db'))
+
 
 @babel.localeselector
 def get_locale():
@@ -78,11 +82,13 @@ def get_locale():
         return language
     return request.accept_languages.best_match(LANGUAGES.keys())
 
+
 @app.context_processor
 def inject_conf_var():
     return dict(
         AVAILABLE_LANGUAGES=LANGUAGES,
         CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(LANGUAGES.keys())))
+
 
 @app.route('/models/result')
 def show_result():
@@ -109,7 +115,10 @@ def summarize(case_text):
 
 
 def get_keywords(case_text):
-    return 'hi'
+    extractor = KeywordExtractor()
+    prep_text = extractor.preprocess_text(case_text)
+    keywords = list(set(extractor.keyword_extraction(prep_text)))
+    return keywords
 
 
 def get_risk_score(case_text):
@@ -123,6 +132,8 @@ def get_risk_score(case_text):
         risk_level = 'high'
     else:
         risk_level = 'medium'
+
+    # TODO: get words with high similarity to 8 abuse types, show as explicit evidence that potentially affected the risk score
 
     return "This is a {} risk case, with the score of ".format(risk_level) + format(score, ".2f")
 
