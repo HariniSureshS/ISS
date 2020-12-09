@@ -29,7 +29,10 @@ babel = Babel(app)
 LANGUAGES = {
     'en' : 'English',
     'fr' : 'French',
-    'ko' : 'Korean'
+    'de' : 'German',
+    'zh' : 'Chinese',
+    'ko' : 'Korean',
+    'id' : 'Indonesian'
 }
 Bootstrap(app)
 

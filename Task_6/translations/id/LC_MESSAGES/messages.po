@@ -1,0 +1,168 @@
+# Indonesian translations for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-12-09 00:07+0530\n"
+"PO-Revision-Date: 2020-12-08 23:04-0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: id\n"
+"Language-Team: id <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+#: forms.py:8 templates/result.html:7
+msgid "Case Text"
+msgstr "Penjelasan Kasus"
+
+#: forms.py:8
+msgid "Enter service(s) requested, background information and assessment (if any)"
+msgstr "Masukan jenis layanan yang di minta, latar belakang informasi dan penilaian (jika ada)"
+
+#: forms.py:10
+msgid "File"
+msgstr "Berkas"
+
+#: forms.py:10
+msgid "Upload a case file or supplementary document"
+msgstr "Unggah berkas kasus dan dokumen pendukung lainnya "
+
+#: forms.py:10
+msgid ".txt file only"
+msgstr "hanya berkas dengan format .txt"
+
+#: forms.py:12
+msgid "Case Text From Language"
+msgstr ""
+
+#: forms.py:12
+msgid "Select the case text language"
+msgstr ""
+
+#: forms.py:14
+msgid "Case Text To Language"
+msgstr ""
+
+#: forms.py:14
+msgid "Select the language to which the text needs to be converted"
+msgstr ""
+
+#: forms.py:16
+msgid "Submit"
+msgstr "Ajukan"
+
+#: forms.py:19
+msgid "Show open cases only"
+msgstr "Tampilkan hanya kasus aktif"
+
+#: forms.py:19
+msgid "Show closed cases only"
+msgstr "Tampilkan kasus yang sudah selesai"
+
+#: forms.py:19
+msgid "Show both open and closed cases"
+msgstr "Tampilkan kasus aktif dan kasus yang sudah selesai"
+
+#: forms.py:21
+msgid "Show a case by case number"
+msgstr "Tampilkan kasus berdasarkan nomor kasus"
+
+#: forms.py:23
+msgid "Show cases that opened on or after this date"
+msgstr "Tampilkan kasus yang di mulai setelah atau pada hari berikut"
+
+#: forms.py:23 forms.py:25
+msgid "Please follow this format: YYYY-MM-DD"
+msgstr "Harap ikuti format penulisan berikut: YYYY-MM-DD"
+
+#: forms.py:25
+msgid "Show cases that closed on or before this date, if closed"
+msgstr "Tampilkan kasus yang selesai sebelum atau pada tanggal berikut, jika sudah diselesaikan"
+
+#: forms.py:27
+msgid "Show cases where service is requested in this country"
+msgstr "Tampilkan kasus dimana layanan yang diminta pada negara berikut"
+
+#: forms.py:29
+msgid "Show cases where the following service is requested"
+msgstr "Tampilkan kasus dimana layanan yang diminta adalah sebagai berikut"
+
+#: forms.py:29
+msgid "Child Protection"
+msgstr "Perlindungan Anak"
+
+#: forms.py:29
+msgid "Children on the Move"
+msgstr "Anak-anak dalam perjalanan"
+
+#: forms.py:31
+msgid "Show cases that contain these words"
+msgstr "Tampilkan kasus yang mengandung kalimat berikut"
+
+#: forms.py:31
+msgid "Please separate words with a comma"
+msgstr "Harap pisahkan kata dengan tanda koma "
+
+#: forms.py:33
+msgid "Show high risk cases only"
+msgstr Tampilkan kasus dengan risiko tinggi saja
+
+#: forms.py:33
+msgid "High risk cases have risk score of or over 0.75"
+msgstr "Kasus risiko tinggi memiliki nilai risiko lebih besar sama dengan 0.75"
+
+#: forms.py:35
+msgid "Search"
+msgstr "Pencarian"
+
+#: templates/case.html:19
+msgid "Enter case information"
+msgstr "Masukan informasi kasus"
+
+#: templates/query.html:19 templates/query.html:20
+msgid "View all cases"
+msgstr "Tampilkan semua kasus"
+
+#: templates/query.html:22
+msgid "Filter cases by features"
+msgstr "Saring kasus berdasarkan fitur"
+
+#: templates/query.html:23
+msgid "Fill out as many criteria as needed"
+msgstr "Masukan kriteria yang dibutuhkan sebanyak mungkin"
+
+#: templates/result.html:4
+msgid "View Result"
+msgstr "Melihat hasil"
+
+#: templates/result.html:11
+msgid "Case Summary"
+msgstr "Rangkuman Kasus"
+
+#: templates/result.html:15
+msgid "Keywords"
+msgstr "Kata kunci"
+
+#: templates/result.html:19
+msgid "Risk Score"
+msgstr "Nilai Risiko"
+
+#: templates/result.html:23
+msgid "Abuse Types"
+msgstr "Jenis Penyalahgunaan"
+
+#: templates/result.html:27
+msgid "Similar Cases"
+msgstr "Kasus yang mirip"
+
+#: templates/result.html:31
+msgid "Translation in [enter language here]"
+msgstr "Artikan dalam [masukkan bahasa di sini]"
+
