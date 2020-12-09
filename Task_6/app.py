@@ -15,6 +15,7 @@ from models.embedding_model import extract_embeddings
 # from models.translation_model import get_translation
 from models.abuse_types import abuse_types
 from models.keyword_extractor import KeywordExtractor
+from models.risk_factors import get_risk_factors
 risk_model = load_model('models/risk_0.189.h5')
 
 app = Flask(__name__)
@@ -141,9 +142,9 @@ def get_risk_score(case_text):
     else:
         risk_level = 'medium'
 
-    # TODO: get words with high similarity to 8 abuse types, show as explicit evidence that potentially affected the risk score
+    risk_words = get_risk_factors(case_text)
 
-    return "This is a {} risk case, with the score of ".format(risk_level) + format(score, ".2f")
+    return "This is a {} risk case, with the score of ".format(risk_level) + format(score, ".2f") + ". Possible words that may have affected the risk score are: {}".format(risk_words)
 
 
 def get_abuse_types(case_text):

@@ -1,12 +1,11 @@
 import re
 import spacy
 import en_core_web_lg
-from spacy.lang.en.stop_words import STOP_WORDS
-from nltk.stem.wordnet import WordNetLemmatizer
 
 nlp = en_core_web_lg.load()
 stop_words = list(nlp.Defaults.stop_words)
 
+abuses = ['abandon' 'molest', 'beat', 'fight', 'divorce', 'threaten', 'drug', 'neglect']
 
 def lemmatization(iss_str):
   tokens_list = []
