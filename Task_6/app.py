@@ -180,7 +180,7 @@ def query_db():
     if request.method == 'POST' and query_form.validate_on_submit():
         if request.form['case_number'] != '':
             return redirect(url_for('get_case_by_number', case_number_=request.form['case_number']))
-        session['params']=request.form
+        session['params'] = request.form
         return redirect(url_for('get_all_cases'))
     else:
         return render_template('query.html', form=query_form)
@@ -205,18 +205,19 @@ def get_all_cases():
     try:
         Case = dbmodels.Case
         cases = Case.query
-        
-        ##this is if someone clicks on "View all cases" link directly
+
+        ## if someone clicks on "View all cases" link
         if(len(params)==0):
             return jsonify([case.serialize() for case in cases.all()])
 
         if params['country']:
             cases = cases.filter_by(country=params['country'])
 
-        if params['get_open_close'] == '0':
-            cases = cases.filter_by(is_closed=False)
-        elif params['get_open_close'] == '1':
-            cases = cases.filter_by(is_closed=True)
+        if params['get_open_close']:
+            if params['get_open_close'] == '0':
+                cases = cases.filter_by(is_closed=False)
+            elif params['get_open_close'] == '1':
+                cases = cases.filter_by(is_closed=True)
 
         if params['open_date']:
             cases = cases.filter(Case.open_date >= params['open_date'])
