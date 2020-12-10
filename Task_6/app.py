@@ -9,8 +9,7 @@ from flask_migrate import Migrate
 import datetime
 import numpy as np
 import tensorflow as tf
-import keras
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 from models.embedding_model import extract_embeddings
 from models.summarizer import get_summarizer
 # from models.translation_model import get_translation
@@ -127,6 +126,7 @@ def show_result():
 
 def summarize(case_text):
     return get_summarizer(case_text)
+    # return 'hi'
 
 
 def get_keywords(case_text):
