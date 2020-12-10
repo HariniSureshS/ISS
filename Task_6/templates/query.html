@@ -1,22 +1,27 @@
 {% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {%
   block title %}Search Database{% endblock %} {% block content %}
   <div class="container">
-    <div class='lang_container'>
-      <select class="form-control" onchange="javascript:location.href = this.value;">
-        <option>Language</option>
-        <option value='/query/language/en'>English</option>
-        <option value='/query/language/fr'>French</option>
-        <option value='/query/language/de'>German</option>
-        <option value='/query/language/zh'>Chinese</option>
-        <option value='/query/language/ko'>Korean</option>
-        <option value='/query/language/id'>Indonesian</option>
-      </select>
+    <div class='flex-box'>
+      <div class='lang_container'>
+        <select class="form-control" onchange="javascript:location.href = this.value;">
+          <option>Language</option>
+          <option value='/query/language/en'>English</option>
+          <option value='/query/language/fr'>French</option>
+          <option value='/query/language/de'>German</option>
+          <option value='/query/language/zh'>Chinese</option>
+          <option value='/query/language/ko'>Korean</option>
+          <option value='/query/language/id'>Indonesian</option>
+        </select>
+      </div>
     </div>
     <style>
-      .lang_container{
-        position: absolute;
+      .flex-box {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .lang_container {
         margin-top: 10px;
-        right: 100px;
+        width: 150px;
       }
     </style>
     <h3>{{ _('View all cases') }}</h3>

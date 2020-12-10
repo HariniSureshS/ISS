@@ -46,14 +46,14 @@ import dbmodels
 
 @app.route('/')
 def main_menu():
-    session.clear()
+    session.pop('params', None)
     return render_template('main.html')
 
 
 # form page to input a new case and test out ML models
 @app.route('/models', methods=['GET', 'POST'])
 def enter_case():
-    session.clear()
+    session.pop('params', None)
     case_form = CaseForm()
     if request.method == 'POST' and case_form.validate_on_submit():
             session['form'] = request.form
@@ -71,7 +71,6 @@ def enter_case():
 @app.route('/<page>/language/<language>')
 def set_language(page=None, language=None):
     session['language'] = language
-    print(page)
     if page == 'models':
         return redirect(url_for('enter_case'))
     elif page == 'query':
@@ -99,6 +98,7 @@ def inject_conf_var():
 
 @app.route('/models/result')
 def show_result():
+    session.pop('params', None)
 
     form_input = None
     file_input = None
@@ -175,7 +175,6 @@ def translate(case_text):
 # form page to query cases from database
 @app.route('/query', methods=['GET', 'POST'])
 def query_db():
-    session.clear()
     query_form = QueryForm()
     if request.method == 'POST' and query_form.validate_on_submit():
         if request.form['case_number'] != '':
@@ -206,9 +205,11 @@ def get_all_cases():
         Case = dbmodels.Case
         cases = Case.query
 
-        ## if someone clicks on "View all cases" link
+        ## if someone types /allcases directly on url
         if(len(params)==0):
-            return jsonify([case.serialize() for case in cases.all()])
+            cases = cases.all()
+            print("Total of {} cases were found!".format(len(cases)))
+            return jsonify([case.serialize() for case in cases])
 
         if params['country']:
             cases = cases.filter_by(country=params['country'])
