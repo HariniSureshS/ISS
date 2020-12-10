@@ -11,7 +11,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from models.embedding_model import extract_embeddings
-from models.summarizer import get_summarizer
+from models.summarizer import get_summary
 # from models.translation_model import get_translation
 from models.abuse_types import abuse_types
 from models.keyword_extractor import KeywordExtractor
@@ -125,7 +125,7 @@ def show_result():
 
 
 def summarize(case_text):
-    return get_summarizer(case_text)
+    return get_summary(case_text)[0]['summary_text']
     # return 'hi'
 
 

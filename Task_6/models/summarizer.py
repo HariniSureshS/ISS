@@ -20,7 +20,7 @@ def split_text(text, limit, sep=" "):
     return res
 
 
-def get_summarizer(case_text):
+def get_summary(case_text):
     '''
         gets summary of case text using BART abstractive summarizer trained
         on CNN/Daily. If the case text is less
