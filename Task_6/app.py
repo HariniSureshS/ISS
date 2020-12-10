@@ -17,6 +17,8 @@ from models.summarizer import get_summarizer
 from models.abuse_types import abuse_types
 from models.keyword_extractor import KeywordExtractor
 from models.risk_factors import get_risk_factors
+from flask_wtf.csrf import CsrfProtect
+
 risk_model = load_model('models/risk_0.189.h5')
 
 app = Flask(__name__)
@@ -37,6 +39,7 @@ LANGUAGES = {
     'ko' : 'Korean',
     'id' : 'Indonesian'
 }
+CsrfProtect(app)
 Bootstrap(app)
 
 import dbmodels
@@ -44,12 +47,14 @@ import dbmodels
 
 @app.route('/')
 def main_menu():
+    session.clear()
     return render_template('main.html')
 
 
 # form page to input a new case and test out ML models
 @app.route('/models', methods=['GET', 'POST'])
 def enter_case():
+    session.clear()
     case_form = CaseForm()
     if request.method == 'POST' and case_form.validate_on_submit():
             session['form'] = request.form
@@ -170,6 +175,7 @@ def translate(case_text):
 # form page to query cases from database
 @app.route('/query', methods=['GET', 'POST'])
 def query_db():
+    session.clear()
     query_form = QueryForm()
     if request.method == 'POST' and query_form.validate_on_submit():
         if request.form['case_number'] != '':
@@ -199,6 +205,10 @@ def get_all_cases():
     try:
         Case = dbmodels.Case
         cases = Case.query
+        
+        ##this is if someone clicks on "View all cases" link directly
+        if(len(params)==0):
+            return jsonify([case.serialize() for case in cases.all()])
 
         if params['country']:
             cases = cases.filter_by(country=params['country'])
