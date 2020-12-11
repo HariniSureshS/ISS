@@ -38,9 +38,13 @@
     <!-- show relations of case -->
     <div id="relations" class="tab-pane fade">
       <h3>{{ _('Entity Relations') }}</h3>
-        {% for relation in relations %}
-          <li>{{ relation[0] + ' --> ' + relation[1] + ' --> ' + relation[2] }}</li>
-        {% endfor %}
+        {% if relations == "No entity relations found" %}
+          {{ _('No entity relations found') }}
+        {% else %}
+          {% for relation in relations %}
+            <li>{{ relation[0] + ' --> ' + relation[1] + ' --> ' + relation[2] }}</li>
+          {% endfor %}
+        {% endif %}
     </div>
 
     <!-- show main abuse types of case -->
@@ -48,6 +52,7 @@
       <h3>{{ _('Abuse Types') }}</h3>
       <p>{{ abuse_types }}</p>
     </div>
+
 
     <!-- show risk score of case -->
     <div id="risk" class="tab-pane fade">
@@ -61,9 +66,9 @@
       <p>{{ similar_cases }}</p>
     </div>
 
-    <!-- show translation (how to make language dynamic?) -->
+    <!-- show translation -->
     <div id="translation" class="tab-pane fade">
-      <h3>{{ _('Translation in [enter language here]') }}</h3>
+      <h3>{{ _('Translation in your language') }}</h3>
     </div>
 
   </div>
