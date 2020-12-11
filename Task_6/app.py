@@ -8,6 +8,7 @@ from sqlalchemy import or_, func
 from flask_migrate import Migrate
 import datetime
 import numpy as np
+from flask_wtf.csrf import CsrfProtect
 
 #import tensorflow as tf
 #import keras
@@ -21,7 +22,7 @@ app = Flask(__name__)
 app.config.from_mapping(
     SECRET_KEY=b'\x94\xf4\xb6Eo\xc4?Kia\x852\xbc\xe9S~\xb7\xd0\xb7#a\x93g\xb8',
     WTF_CSRF_TIME_LIMIT=None,
-    SQLALCHEMY_DATABASE_URI="postgres://vaeasdshrlvcczzizy:6663167d4ac12d1c5f3c4@ec2-52-44-55-63.compute-1.amazonaws.com:5432/d40gtns3k9jeo6",
+    SQLALCHEMY_DATABASE_URI="postgres://vaehrlvcczzizy:6c2f2b4c0768f55a9e3ea3036876cd5323917202e406663167d4ac12d1c5f3c4@ec2-52-44-55-63.compute-1.amazonaws.com:5432/d40gtns3k9jeo6",
     SQLALCHEMY_ECHO= True)
 app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
 db = SQLAlchemy(app)
@@ -32,6 +33,7 @@ LANGUAGES = {
     'fr' : 'French',
     'ko' : 'Korean'
 }
+CsrfProtect(app)
 Bootstrap(app)
 
 from sqlalchemy import Table
@@ -46,11 +48,13 @@ session_db = Session()
 
 @app.route('/')
 def main_menu():
+    session.clear()
     return render_template('main.html')
 
 # form page to input a new case and test out ML models
 @app.route('/models', methods=['GET', 'POST'])
 def enter_case():
+    session.clear()
     case_form = CaseForm()
     if request.method == 'POST' and case_form.validate_on_submit():
             session['form'] = request.form
@@ -154,6 +158,7 @@ def translate(case_text):
 # form page to query cases from database
 @app.route('/query', methods=['GET', 'POST'])
 def query_db():
+    session.clear()
     query_form = QueryForm()
     if request.method == 'POST' and query_form.validate_on_submit():
         if request.form['case_number'] != '':
@@ -177,12 +182,11 @@ def get_case_by_number(case_number_):
 @app.route('/allcases')
 def get_all_cases():
     
-    params={}
-    if 'params' in session.keys(): params = session['params']
+    params=session['params']
     
     try:
         cases = session_db.query(cases_db)
-        
+                    
         if params['country']:
             cases = cases.filter(cases_db.c.country==params['country'])
         
@@ -206,7 +210,7 @@ def get_all_cases():
             keywords = params['keywords'].split(",")
             for keyword in keywords:
                 keyword = keyword.strip().lower()
-            cases = cases.filter(or_(func.lower(cases_db.c.case_text).contains(word) for word in keywords))
+            cases = cases.filter(or_(func.lower(cases_db.c.case).contains(word) for word in keywords))
 
         #if 'get_high_risk' in params:
             #cases = cases.filter(case_db.c.risk_score >= 0.75)
@@ -217,7 +221,7 @@ def get_all_cases():
         return render_template('tablify.html',allFoundCases=cases.all(), col2name=cols_nms, numCases=len(cases.all()))
 
     except Exception as e:
-        return str(e)
+        return str(e), params
 
 
 if __name__ == '__main__':

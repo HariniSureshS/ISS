@@ -33,3 +33,5 @@ class QueryForm(FlaskForm):
     get_high_risk = BooleanField(_('Show high risk cases only'), description=_('High risk cases have risk score of or over 0.75'))
 
     submit = SubmitField(_('Search'))
+
+    view_all_cases = SubmitField(_('View all cases'))
