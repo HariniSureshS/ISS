@@ -1,7 +1,7 @@
 {% extends "bootstrap/base.html" %} {% block title %}Case Information{% endblock
 %} {% block content %}
 <div class="container">
-  <h2>{{ _('View Result') }}</h2>
+  <h1 class="page-header">{{ _('View Result') }}</h1>
 
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#input">{{ _('Case Text') }}</a></li>
@@ -63,12 +63,30 @@
     <!-- show top 3 similar cases from database -->
     <div id="similar" class="tab-pane fade">
       <h3>{{ _('Similar Cases') }}</h3>
-      <p>{{ similar_cases }}</p>
+      <table class="table">
+        <thead>
+          {% for header in headers %}
+            <th>{{header}}</th>
+          {% endfor %}
+        </thead>
+
+        <tbody>
+          {% for case in similar_cases %}
+              <tr>
+                <td>{{ case.case_number.split(" ")[2] }}</td>
+                <td>{{ case.case_text }}</td>
+                <td>{{ case.country }}</td>
+                <td>{{ case.is_closed }}</td>
+                <td>{{ case.risk_score }}</td>
+              </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 
     <!-- show translation -->
     <div id="translation" class="tab-pane fade">
-      <h3>{{ _('Translation in your language') }}</h3>
+      <h3>{{ _('Translation in your select language') }}</h3>
     </div>
 
   </div>

@@ -115,14 +115,17 @@ def show_result():
     else:
         case_text = form_input['case_text']
 
+    headers = ['Case No.', 'Case Text', 'Country', 'Closed', 'Risk Score']
+
     return render_template('result.html',
                            input=case_text,
-                        #    summary=summarize(case_text),
-                        #    keywords=get_keywords(case_text),
-                        #    relations=get_relations(case_text),
-                        #    risk_score=get_risk_score(case_text),
-                        #    abuse_types=get_abuse_types(case_text),
+                           summary=summarize(case_text),
+                           keywords=get_keywords(case_text),
+                           relations=get_relations(case_text),
+                           risk_score=get_risk_score(case_text),
+                           abuse_types=get_abuse_types(case_text),
                            similar_cases=get_similar(case_text),
+                           headers=headers,
                            translation=translate(case_text))
 
 
@@ -167,7 +170,6 @@ def get_abuse_types(case_text):
 
 
 def get_similar(case_text):
-    # extract_embedding's input must be a list containing a string
     user_embedding = extract_embeddings([case_text])
 
     try:
@@ -221,7 +223,6 @@ def get_all_cases():
         Case = dbmodels.Case
         cases = Case.query
 
-        ## if someone types /allcases directly on url
         if(len(params)==0):
             cases = cases.all()
             print("Total of {} cases were found!".format(len(cases)))
