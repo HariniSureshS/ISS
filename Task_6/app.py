@@ -15,6 +15,7 @@ from models.summarizer import get_summary
 # from models.translation_model import get_translation
 from models.abuse_types import abuse_types
 from models.keyword_extractor import KeywordExtractor
+from models.relation_extractor import get_entity_pairs
 from models.risk_factors import get_risk_factors
 from flask_wtf.csrf import CsrfProtect
 
@@ -118,6 +119,7 @@ def show_result():
                            input=case_text,
                            summary=summarize(case_text),
                            keywords=get_keywords(case_text),
+                           relations=get_relations(case_text),
                            risk_score=get_risk_score(case_text),
                            abuse_types=get_abuse_types(case_text),
                            similar_cases=get_similar(case_text),
@@ -134,6 +136,14 @@ def get_keywords(case_text):
     prep_text = extractor.preprocess_text(case_text)
     keywords = list(set(extractor.keyword_extraction(prep_text)))
     return keywords
+
+
+def get_relations(case_text):
+    relations = get_entity_pairs(case_text)
+    if not len(relations):
+        return "No entity relations found"
+    else:
+        return relations
 
 
 def get_risk_score(case_text):

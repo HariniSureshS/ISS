@@ -9,23 +9,29 @@
   <hr />
   <!-- show risk score of case -->
   <h4>{{ _('Risk Score') }}</h4>
-  {{risk_score}}
+    {{ risk_score }}
   <hr />
   <!-- show summary of case -->
   <h4>{{ _('Case Summary') }}</h4>
-  {{summary}}
+    {{ summary }}
   <hr />
   <!-- show top 3 similar cases from database -->
   <h4>{{ _('Similar Cases') }}</h4>
-  {{similar_cases}}
+    {{ similar_cases }}
   <hr />
   <!-- show keywords of case -->
   <h4>{{ _('Keywords') }}</h4>
-  {{keywords}}
+    {{ keywords }}
+  <hr />
+  <!-- show relations of case -->
+  <h4>{{ _('Relations') }}</h4>
+    {% for relation in relations %}
+      <li>{{ relation[0] + ' --> ' + relation[1] + ' --> ' + relation[2] }}</li>
+    {% endfor %}
   <hr />
   <!-- show main abuse types of case -->
   <h4>{{ _('Abuse Types') }}</h4>
-  {{abuse_types}}
+    {{ abuse_types }}
   <hr />
   <!-- show translation (how to make language dynamic?) -->
   <h4>{{ _('Translation in [enter language here]') }}</h4>
