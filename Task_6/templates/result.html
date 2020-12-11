@@ -1,40 +1,71 @@
 {% extends "bootstrap/base.html" %} {% block title %}Case Information{% endblock
 %} {% block content %}
 <div class="container">
-  <h3>{{ _('View Result') }}</h3>
-  <hr />
-  <!-- show input case -->
-  <h4>{{ _('Case Text') }}</h4>
-  <p>{{ input }}</p>
-  <hr />
-  <!-- show risk score of case -->
-  <h4>{{ _('Risk Score') }}</h4>
-    {{ risk_score }}
-  <hr />
-  <!-- show summary of case -->
-  <h4>{{ _('Case Summary') }}</h4>
-    {{ summary }}
-  <hr />
-  <!-- show top 3 similar cases from database -->
-  <h4>{{ _('Similar Cases') }}</h4>
-    {{ similar_cases }}
-  <hr />
-  <!-- show keywords of case -->
-  <h4>{{ _('Keywords') }}</h4>
-    {{ keywords }}
-  <hr />
-  <!-- show relations of case -->
-  <h4>{{ _('Relations') }}</h4>
-    {% for relation in relations %}
-      <li>{{ relation[0] + ' --> ' + relation[1] + ' --> ' + relation[2] }}</li>
-    {% endfor %}
-  <hr />
-  <!-- show main abuse types of case -->
-  <h4>{{ _('Abuse Types') }}</h4>
-    {{ abuse_types }}
-  <hr />
-  <!-- show translation (how to make language dynamic?) -->
-  <h4>{{ _('Translation in [enter language here]') }}</h4>
-  <hr />
+  <h2>{{ _('View Result') }}</h2>
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#input">{{ _('Case Text') }}</a></li>
+    <li><a data-toggle="tab" href="#summary">{{ _('Case Summary') }}</a></li>
+    <li><a data-toggle="tab" href="#keywords">{{ _('Keywords') }}</a></li>
+    <li><a data-toggle="tab" href="#relations">{{ _('Entity Relations') }}</a></li>
+    <li><a data-toggle="tab" href="#abuses">{{ _('Abuse Types') }}</a></li>
+    <li><a data-toggle="tab" href="#risk">{{ _('Risk Score') }}</a></li>
+    <li><a data-toggle="tab" href="#similar">{{ _('Similar Cases') }}</a></li>
+    <li><a data-toggle="tab" href="#translation">{{ _('Translation') }}</a></li>
+  </ul>
+
+  <div class="tab-content">
+
+    <div id="input" class="tab-pane fade in active">
+      <h3>{{ _('Case Text') }}</h3>
+      <p>{{ input }}</p>
+    </div>
+
+    <!-- show summary of case -->
+    <div id="summary" class="tab-pane fade">
+      <h3>{{ _('Case Summary') }}</h3>
+      <p>{{ summary }}</p>
+    </div>
+
+    <!-- show keywords of case -->
+    <div id="keywords" class="tab-pane fade">
+      <h3>{{ _('Keywords') }}</h3>
+        {% for keyword in keywords %}
+          <li>{{ keyword }}</li>
+        {% endfor %}
+    </div>
+
+    <!-- show relations of case -->
+    <div id="relations" class="tab-pane fade">
+      <h3>{{ _('Entity Relations') }}</h3>
+        {% for relation in relations %}
+          <li>{{ relation[0] + ' --> ' + relation[1] + ' --> ' + relation[2] }}</li>
+        {% endfor %}
+    </div>
+
+    <!-- show main abuse types of case -->
+    <div id="abuses" class="tab-pane fade">
+      <h3>{{ _('Abuse Types') }}</h3>
+      <p>{{ abuse_types }}</p>
+    </div>
+
+    <!-- show risk score of case -->
+    <div id="risk" class="tab-pane fade">
+      <h3>{{ _('Risk Score') }}</h3>
+      <p>{{ risk_score }}</p>
+    </div>
+
+    <!-- show top 3 similar cases from database -->
+    <div id="similar" class="tab-pane fade">
+      <h3>{{ _('Similar Cases') }}</h3>
+      <p>{{ similar_cases }}</p>
+    </div>
+
+    <!-- show translation (how to make language dynamic?) -->
+    <div id="translation" class="tab-pane fade">
+      <h3>{{ _('Translation in [enter language here]') }}</h3>
+    </div>
+
+  </div>
 </div>
 {% endblock %}
