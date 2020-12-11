@@ -7,6 +7,7 @@ from flask_babel import Babel,_
 from sqlalchemy import or_, func
 from flask_migrate import Migrate
 import datetime
+import pandas as pd
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import load_model
@@ -43,7 +44,7 @@ CsrfProtect(app)
 Bootstrap(app)
 
 import dbmodels
-
+from models.similar_cases import get_similar_cases
 
 @app.route('/')
 def main_menu():
@@ -85,7 +86,6 @@ def get_locale():
     except KeyError:
         language = None
     if language is not None:
-        print(language)
         return language
     return request.accept_languages.best_match(LANGUAGES.keys())
 
@@ -117,18 +117,17 @@ def show_result():
 
     return render_template('result.html',
                            input=case_text,
-                           summary=summarize(case_text),
-                           keywords=get_keywords(case_text),
-                           relations=get_relations(case_text),
-                           risk_score=get_risk_score(case_text),
-                           abuse_types=get_abuse_types(case_text),
+                        #    summary=summarize(case_text),
+                        #    keywords=get_keywords(case_text),
+                        #    relations=get_relations(case_text),
+                        #    risk_score=get_risk_score(case_text),
+                        #    abuse_types=get_abuse_types(case_text),
                            similar_cases=get_similar(case_text),
                            translation=translate(case_text))
 
 
 def summarize(case_text):
     return get_summary(case_text)[0]['summary_text']
-    # return 'hi'
 
 
 def get_keywords(case_text):
@@ -169,7 +168,14 @@ def get_abuse_types(case_text):
 
 def get_similar(case_text):
     # extract_embedding's input must be a list containing a string
-    return extract_embeddings([case_text])
+    user_embedding = extract_embeddings([case_text])
+
+    try:
+        cases = dbmodels.Case.query.all()
+        serialized_cases = jsonify([case.serialize() for case in cases]).data
+        return get_similar_cases(serialized_cases, user_embedding, top_n = 5)
+    except Exception as e:
+        return 'Error: ' + str(e)
 
 
 def translate(case_text):
@@ -201,7 +207,7 @@ def get_case_by_number(case_number_):
         case = dbmodels.Case.query.filter_by(case_number=case_number_).first_or_404(description='There is no data with the following case_number: {}'.format(case_number_))
         return jsonify(case.serialize())
     except Exception as e:
-        return str(e)
+        return 'Error: ' + str(e)
 
 
 @app.route('/allcases')
@@ -255,7 +261,7 @@ def get_all_cases():
 
         return jsonify([case.serialize() for case in cases])
     except Exception as e:
-        return str(e)
+        return 'Error: ' + str(e)
 
 
 if __name__ == '__main__':
