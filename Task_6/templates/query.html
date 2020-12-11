@@ -24,13 +24,14 @@
         width: 150px;
       }
     </style>
-    <h3>{{ _('View all cases') }}</h3>
-    <a href="/allcases">{{ _('View all cases') }}</a>
+<!--    <h3>{{ _('View all cases') }}</h3>
+    <a href="/allcases">{{ _('View all cases') }}</a>-->
     <hr />
-    <h3>{{ _('Filter cases by features') }}</h3>
-    <h5>{{ _('Fill out as many criteria as needed') }}</h5>
     <form action="{{ url_for('query_db') }}" method='POST'>
       {{ form.csrf_token }}
+      {{ wtf.form_field(form.view_all_cases) }}
+      <h3>{{ _('Filter cases by features') }}</h3>
+      <h5>{{ _('Fill out as many criteria as needed') }}</h5>
       {{ wtf.form_field(form.get_open_close) }}
       {{ wtf.form_field(form.case_number) }}
       {{ wtf.form_field(form.open_date) }}

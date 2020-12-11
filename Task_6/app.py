@@ -206,20 +206,12 @@ def get_case_by_number(case_number_):
 
 @app.route('/allcases')
 def get_all_cases():
-
-    params = {}
-    if 'params' in session.keys():
-        params = session['params']
-
+    
+    params=session['params']
+    
     try:
         Case = dbmodels.Case
         cases = Case.query
-
-        ## if someone types /allcases directly on url
-        if(len(params)==0):
-            cases = cases.all()
-            print("Total of {} cases were found!".format(len(cases)))
-            return jsonify([case.serialize() for case in cases])
 
         if params['country']:
             cases = cases.filter_by(country=params['country'])
