@@ -179,7 +179,6 @@ def get_similar(case_text):
     except Exception as e:
         return 'Error: ' + str(e)
 
-
 # def translate(case_text):
 #     print('Hi')
     # form_input = session['form']

@@ -32,6 +32,8 @@ def get_summary(case_text):
     summary = None
     if len(case_text) < LIMIT:
         summary = summarizer(case_text)
+        if len(case_text) < len(summary):
+            summary = case_text
     else:
         list_of_summaries = split_text(case_text, LIMIT)
         summary = " ".join(list_of_summaries)

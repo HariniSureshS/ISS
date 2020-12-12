@@ -5,6 +5,7 @@ import json
 import ast
 import numpy as np
 from models.embedding_model import extract_embeddings
+import re
 
 manager = Manager(app)
 
@@ -21,6 +22,7 @@ def seed():
     for data in seed_data:
       if not data['close_date']:
         data['close_date'] = None
+      data['case_text'] = re.sub(r'[\n\r\t]','',data['case_text'])
       data['embedding'] = np.array(extract_embeddings([data['case_text']])).tolist()[0]
       data['topic_verbs'] = ast.literal_eval(data['topic_verbs'])
 
