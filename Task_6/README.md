@@ -39,6 +39,10 @@ To create a local database:
 ```
 $ createdb iss
 ```
+To initialize database:
+```
+$ flask db init
+```
 To update the model:
 ```
 $ flask db migrate
