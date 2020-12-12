@@ -40,4 +40,4 @@ def get_risk_factors(case_text):
   for word in high_similar_words_list:
     high_similar_original_words.append(lemma_to_orig[word])
 
-  return high_similar_original_words
+  return list(set(high_similar_original_words))
