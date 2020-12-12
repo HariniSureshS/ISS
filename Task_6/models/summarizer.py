@@ -28,14 +28,19 @@ def get_summary(case_text):
         than the LIMIT number of characters, it simply gets the summary. If not, it cuts
         up the case text into strings that BART (1024 tokens) can handle then rejoins them
     '''
-
+    
     summary = None
     if len(case_text) < LIMIT:
         summary = summarizer(case_text)
         if len(case_text) < len(summary):
             summary = case_text
     else:
-        list_of_summaries = split_text(case_text, LIMIT)
+        list_of_text = split_text(case_text, LIMIT)
+        list_of_summaries = []
+        for text in list_of_summaries:
+            summ = get_summarizer(text)
+            list_of_summaries.append(summ)
         summary = " ".join(list_of_summaries)
+
 
     return summary
