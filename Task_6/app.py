@@ -130,7 +130,7 @@ def show_result():
 
 
 def summarize(case_text):
-    return get_summary(case_text)[0]['summary_text']
+    return get_summary(case_text)
 
 
 def get_keywords(case_text):
