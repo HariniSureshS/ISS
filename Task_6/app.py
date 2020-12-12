@@ -3,7 +3,7 @@ from flask import Flask, session, request, redirect, url_for, render_template, j
 from forms import CaseForm, QueryForm
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-# from flask_babel import Babel,_
+from flask_babel import Babel, _
 from sqlalchemy import or_, func
 from flask_migrate import Migrate
 import datetime
@@ -17,6 +17,7 @@ from models.summarizer import get_summary
 from models.abuse_types import abuse_types
 from models.keyword_extractor import KeywordExtractor
 from models.relation_extractor import get_entity_pairs
+from models.similar_cases import get_similar_cases
 from models.risk_factors import get_risk_factors
 from flask_wtf.csrf import CsrfProtect
 
@@ -31,20 +32,19 @@ app.config.from_mapping(
 app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-# babel = Babel(app)
-# LANGUAGES = {
-#     'en' : 'English',
-#     'fr' : 'French',
-#     'de' : 'German',
-#     'zh' : 'Chinese',
-#     'ko' : 'Korean',
-#     'id' : 'Indonesian'
-# }
+babel = Babel(app)
+LANGUAGES = {
+    'en' : 'English',
+    'fr' : 'French',
+    'de' : 'German',
+    'zh' : 'Chinese',
+    'ko' : 'Korean',
+    'id' : 'Indonesian'
+}
 CsrfProtect(app)
 Bootstrap(app)
 
 import dbmodels
-from models.similar_cases import get_similar_cases
 
 @app.route('/')
 def main_menu():
@@ -57,6 +57,8 @@ def main_menu():
 def enter_case():
     session.pop('params', None)
     case_form = CaseForm()
+    print(case_form.validate_on_submit())
+    print(case_form.errors)
     if request.method == 'POST' and case_form.validate_on_submit():
             session['form'] = request.form
             file_data = request.files.get('case_upload')
@@ -65,36 +67,36 @@ def enter_case():
                 content = file_data.read().decode('utf-8')
                 session['file'] = content
             elif not request.form['case_text']:
-                return render_template('case.html', form=case_form)
+                return render_template('models.html', form=case_form)
             return redirect('/models/result')
-    return render_template('case.html', form=case_form)
+    return render_template('models.html', form=case_form)
 
 
-# @app.route('/<page>/language/<language>')
-# def set_language(page=None, language=None):
-#     session['language'] = language
-#     if page == 'models':
-#         return redirect(url_for('enter_case'))
-#     elif page == 'query':
-#         return redirect(url_for('query_db'))
+@app.route('/<page>/language/<language>')
+def set_language(page=None, language=None):
+    session['language'] = language
+    if page == 'models':
+        return redirect(url_for('enter_case'))
+    elif page == 'query':
+        return redirect(url_for('query_db'))
 
 
-# @babel.localeselector
-# def get_locale():
-#     try:
-#         language = session['language']
-#     except KeyError:
-#         language = None
-#     if language is not None:
-#         return language
-#     return request.accept_languages.best_match(LANGUAGES.keys())
+@babel.localeselector
+def get_locale():
+    try:
+        language = session['language']
+    except KeyError:
+        language = None
+    if language is not None:
+        return language
+    return request.accept_languages.best_match(LANGUAGES.keys())
 
 
-# @app.context_processor
-# def inject_conf_var():
-#     return dict(
-#         AVAILABLE_LANGUAGES=LANGUAGES,
-#         CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(LANGUAGES.keys())))
+@app.context_processor
+def inject_conf_var():
+    return dict(
+        AVAILABLE_LANGUAGES=LANGUAGES,
+        CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(LANGUAGES.keys())))
 
 
 @app.route('/models/result')
@@ -117,7 +119,7 @@ def show_result():
 
     headers = ['Case No.', 'Case Text', 'Country', 'Closed', 'Risk Score']
 
-    return render_template('result.html',
+    return render_template('models_result.html',
                            input=case_text,
                            summary=summarize(case_text),
                            keywords=get_keywords(case_text),
@@ -215,15 +217,13 @@ def get_case_by_number(case_number_):
 @app.route('/allcases')
 def get_all_cases():
 
-    params = {}
-    if 'params' in session.keys():
-        params = session['params']
+    params = session.get('params', {})
 
     try:
         Case = dbmodels.Case
         cases = Case.query
 
-        if(len(params)==0):
+        if not params:
             cases = cases.all()
             print("Total of {} cases were found!".format(len(cases)))
             return jsonify([case.serialize() for case in cases])

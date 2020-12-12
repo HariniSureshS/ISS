@@ -31,8 +31,8 @@ block title %}Case Information{% endblock %} {% block content %}
     {{ form.csrf_token }}
     {{ wtf.form_field(form.case_text) }}
     {{ wtf.form_field(form.case_upload) }}
-    <!-- {{ wtf.form_field(form.from_language) }}
-    {{ wtf.form_field(form.to_language) }} -->
+    {# {{ wtf.form_field(form.from_language) }} #}
+    {# {{ wtf.form_field(form.to_language) }} #}
     {{ wtf.form_field(form.submit) }}
 
     {% for error in form.case_upload.errors%}

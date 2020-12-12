@@ -51,9 +51,13 @@
     <!-- show keywords of case -->
     <div id="keywords" class="tab-pane fade">
       <h3>{{ _('Keywords') }}</h3>
-        {% for keyword in keywords %}
-          <li>{{ keyword }}</li>
-        {% endfor %}
+        {% if not keywords %}
+          {{ _('No keywords found') }}
+        {% else %}
+          {% for keyword in keywords %}
+            <li>{{ keyword }}</li>
+          {% endfor %}
+        {% endif %}
     </div>
 
     <!-- show relations of case -->
