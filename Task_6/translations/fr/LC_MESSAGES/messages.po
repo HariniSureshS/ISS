@@ -1,0 +1,173 @@
+# French translations for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-12-09 00:07+0530\n"
+"PO-Revision-Date: 2020-12-07 21:03-0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+#: forms.py:8 templates/result.html:7
+msgid "Case Text"
+msgstr "Texte du cas"
+
+#: forms.py:8
+msgid "Enter service(s) requested, background information and assessment (if any)"
+msgstr ""
+"Entrez les service(s) demandés, les informations générales et "
+"l'évaluation (s’il y a une)"
+
+#: forms.py:10
+msgid "File"
+msgstr "Fichier"
+
+#: forms.py:10
+msgid "Upload a case file or supplementary document"
+msgstr "Télécharger un dossier ou un document supplémentaire"
+
+#: forms.py:10
+#, fuzzy
+msgid "txt file only"
+msgstr "seulement .txt est autorisé"
+
+#: forms.py:12
+#, fuzzy
+msgid "Case Text From Language"
+msgstr "Sélectionnez la langue du texte du cas"
+
+#: forms.py:12
+msgid "Select the case text language"
+msgstr "Sélectionnez la langue du texte du cas"
+
+#: forms.py:14
+#, fuzzy
+msgid "Case Text To Language"
+msgstr "Sélectionnez la langue du texte du cas"
+
+#: forms.py:14
+msgid "Select the language to which the text needs to be converted"
+msgstr "Sélectionnez la langue dans laquelle le texte doit être converti"
+
+#: forms.py:16
+msgid "Submit"
+msgstr "Soumettre"
+
+#: forms.py:19
+msgid "Show open cases only"
+msgstr "Afficher uniquement les cas ouverts"
+
+#: forms.py:19
+msgid "Show closed cases only"
+msgstr "Afficher uniquement les cas fermés"
+
+#: forms.py:19
+msgid "Show both open and closed cases"
+msgstr "Afficher les dossiers ouverts ou fermés"
+
+#: forms.py:21
+msgid "Show a case by case number"
+msgstr "Afficher un cas par numéro d’identification"
+
+#: forms.py:23
+msgid "Show cases that opened on or after this date"
+msgstr "Afficher les cas ouvertes à cette date ou après"
+
+#: forms.py:23 forms.py:25
+msgid "Please follow this format: YYYY-MM-DD"
+msgstr "Veuillez suivre ce format: AAAA-MM-JJ"
+
+#: forms.py:25
+msgid "Show cases that closed on or before this date, if closed"
+msgstr "Afficher les cas fermés à cette date ou avant, s’ils sont fermés"
+
+#: forms.py:27
+msgid "Show cases where service is requested in this country"
+msgstr "Afficher les cas où le service est demandé dans ce pays"
+
+#: forms.py:29
+msgid "Show cases where the following service is requested"
+msgstr "Afficher les cas où le service suivant est demandé"
+
+#: forms.py:29
+msgid "Child Protection"
+msgstr "Protection d’enfant"
+
+#: forms.py:29
+msgid "Children on the Move"
+msgstr "Enfants en mouvement"
+
+#: forms.py:31
+msgid "Show cases that contain these words"
+msgstr "Afficher les cas contenant ces mots"
+
+#: forms.py:31
+msgid "Please separate words with a comma"
+msgstr "Veuillez séparer les mots par une virgule"
+
+#: forms.py:33
+msgid "Show high risk cases only"
+msgstr "Afficher uniquement les cas à haut risque"
+
+#: forms.py:33
+msgid "High risk cases have risk score of or over 0.75"
+msgstr "Les cas à haut risque ont un score de risque supérieur ou égal à 0,75"
+
+#: forms.py:35
+msgid "Search"
+msgstr "Chercher"
+
+#: templates/case.html:19
+msgid "Enter case information"
+msgstr "Entrez les informations sur le cas"
+
+#: templates/query.html:19 templates/query.html:20
+msgid "View all cases"
+msgstr "Voir tous les cas"
+
+#: templates/query.html:22
+msgid "Filter cases by features"
+msgstr "Filtrer les cas par fonctionnalités"
+
+#: templates/query.html:23
+msgid "Fill out as many criteria as needed"
+msgstr "Remplissez autant de critères que nécessaire"
+
+#: templates/result.html:4
+msgid "View Result"
+msgstr "Voir résultat"
+
+#: templates/result.html:11
+msgid "Case Summary"
+msgstr "Résumé du cas"
+
+#: templates/result.html:15
+msgid "Keywords"
+msgstr "Mots clés"
+
+#: templates/result.html:19
+msgid "Risk Score"
+msgstr "Score de risque"
+
+#: templates/result.html:23
+msgid "Abuse Types"
+msgstr "Types d'abus"
+
+#: templates/result.html:27
+msgid "Similar Cases"
+msgstr "Cas similaires"
+
+#: templates/result.html:31
+msgid "Translation in [enter language here]"
+msgstr "Traduction en [entrez la langue ici]"
+

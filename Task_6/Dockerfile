@@ -10,6 +10,8 @@ ENV DEBUG 1
 
 RUN pip install --upgrade pip
 
+# prerequisites
+RUN pip install -U nltk
 
 COPY requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt 

@@ -1,0 +1,168 @@
+# Chinese translations for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-12-09 00:07+0530\n"
+"PO-Revision-Date: 2020-12-08 23:05-0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+#: forms.py:8 templates/result.html:7
+msgid "Case Text"
+msgstr "案例文字"
+
+#: forms.py:8
+msgid "Enter service(s) requested, background information and assessment (if any)"
+msgstr "输入所需服务，背景信息和附件（备）"
+
+#: forms.py:10
+msgid "File"
+msgstr "文档"
+
+#: forms.py:10
+msgid "Upload a case file or supplementary document"
+msgstr "上传文档或附件"
+
+#: forms.py:10
+msgid ".txt file only"
+msgstr "仅限txt文档"
+
+#: forms.py:12
+msgid "Case Text From Language"
+msgstr ""
+
+#: forms.py:12
+msgid "Select the case text language"
+msgstr ""
+
+#: forms.py:14
+msgid "Case Text To Language"
+msgstr ""
+
+#: forms.py:14
+msgid "Select the language to which the text needs to be converted"
+msgstr ""
+
+#: forms.py:16
+msgid "Submit"
+msgstr "上传"
+
+#: forms.py:19
+msgid "Show open cases only"
+msgstr "只显示未完成案例"
+
+#: forms.py:19
+msgid "Show closed cases only"
+msgstr "只显示完成案例"
+
+#: forms.py:19
+msgid "Show both open and closed cases"
+msgstr "显示未完成和完成案例"
+
+#: forms.py:21
+msgid "Show a case by case number"
+msgstr "按案例编号显示案例"
+
+#: forms.py:23
+msgid "Show cases that opened on or after this date"
+msgstr "显示这个日期或以后未完成的案例"
+
+#: forms.py:23 forms.py:25
+msgid "Please follow this format: YYYY-MM-DD"
+msgstr "请遵循以下时间格式: 年-月-日"
+
+#: forms.py:25
+msgid "Show cases that closed on or before this date, if closed"
+msgstr "如果已完成，显示这个日期或以前完成的案例"
+
+#: forms.py:27
+msgid "Show cases where service is requested in this country"
+msgstr "显示在该国家/地区需要服务的案例"
+
+#: forms.py:29
+msgid "Show cases where the following service is requested"
+msgstr "显示所需以下服务的案例"
+
+#: forms.py:29
+msgid "Child Protection"
+msgstr "儿童保护"
+
+#: forms.py:29
+msgid "Children on the Move"
+msgstr "儿童迁移"
+
+#: forms.py:31
+msgid "Show cases that contain these words"
+msgstr "显示包含以下文字的案例"
+
+#: forms.py:31
+msgid "Please separate words with a comma"
+msgstr "请用逗号隔开字符"
+
+#: forms.py:33
+msgid "Show high risk cases only"
+msgstr "只显示高风险案例"
+
+#: forms.py:33
+msgid "High risk cases have risk score of or over 0.75"
+msgstr "高风险案例的风险评分大于等于0.75"
+
+#: forms.py:35
+msgid "Search"
+msgstr "查找"
+
+#: templates/case.html:19
+msgid "Enter case information"
+msgstr "输入案例信息"
+
+#: templates/query.html:19 templates/query.html:20
+msgid "View all cases"
+msgstr "查看所有案例"
+
+#: templates/query.html:22
+msgid "Filter cases by features"
+msgstr "按功能筛选案例"
+
+#: templates/query.html:23
+msgid "Fill out as many criteria as needed"
+msgstr "尽可能多得填写所需条件"
+
+#: templates/result.html:4
+msgid "View Result"
+msgstr "查看结果"
+
+#: templates/result.html:11
+msgid "Case Summary"
+msgstr "案例总结"
+
+#: templates/result.html:15
+msgid "Keywords"
+msgstr "关键字"
+
+#: templates/result.html:19
+msgid "Risk Score"
+msgstr "风险评分"
+
+#: templates/result.html:23
+msgid "Abuse Types"
+msgstr "虐待类型"
+
+#: templates/result.html:27
+msgid "Similar Cases"
+msgstr "相似案例"
+
+#: templates/result.html:31
+msgid "Translation in [enter language here]"
+msgstr "翻译 [在此處輸入語言]"
+

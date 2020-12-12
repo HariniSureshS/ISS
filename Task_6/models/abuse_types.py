@@ -1,12 +1,11 @@
 import re
 import spacy
 import en_core_web_lg
-from spacy.lang.en.stop_words import STOP_WORDS
-from nltk.stem.wordnet import WordNetLemmatizer
 
 nlp = en_core_web_lg.load()
 stop_words = list(nlp.Defaults.stop_words)
 
+abuses = ['abandon' 'molest', 'beat', 'fight', 'divorce', 'threaten', 'drug', 'neglect']
 
 def lemmatization(iss_str):
   tokens_list = []
@@ -75,4 +74,4 @@ def abuse_types(case_text):
   first_max = sorted_scores[-1]
   second_max = sorted_scores[-2]
 
-  return [abuse_score_to_type[first_max], abuse_score_to_type[second_max]]
+  return [abuse_score_to_type[first_max].capitalize(), abuse_score_to_type[second_max].capitalize()]
