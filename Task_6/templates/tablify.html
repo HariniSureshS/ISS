@@ -1,33 +1,58 @@
 {% extends "bootstrap/base.html" %} {% block title %}Found Cases{% endblock
-%} 
+%} {% block content %}
+<div class="container">
+    <div class="flex-box">
+        <div class="menu">
+            <a href="/query" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left"></span> Try Another Query</a>
+            <a href="/" class="btn btn-primary"><span class="glyphicon glyphicon-home"></span> Home</a>
+        </div>
+        <div id="google_translate_element"></div>
+    </div>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    }
+    </script>
+    <style>
+    .flex-box {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+    </style>
 
-{% block content %}
-<div class="col-md-8 offset-md-2">
-    <h1 class="card-header">
-       Total of {{ numCases}} case/s were found!
-    </h1>
-<div>
-<table class="table table-striped">
+    <h1 class="page-header">{{ _('View Found Cases') }}</h1>
 
-{% for result in allFoundCases %}
+    <div class="col-md-8 offset-md-2">
+        <h1 class="card-header">
+            Total of {{ numCases}} cases were found!
+        </h1>
 
- <thead class="thead-light">
-    <tr>
-      <th> </th>    
-      <th>{{result['case_number']}} </th>
-    </tr>
-    
-  </thead>
-    <tbody>
-        {% for keys, val in result.items() %}
-            {% if keys!='case_number' %}
+        <table class="table table-striped">
+
+        {% for result in allFoundCases %}
+
+        <thead class="thead-light">
             <tr>
-                <th>{{ keys }}</th>
-                <td>{{ val }}</td>
+            <th> </th>
+            <th>{{result['case_number']}} </th>
             </tr>
-            {% endif %}
+
+        </thead>
+            <tbody>
+                {% for keys, val in result.items() %}
+                    {% if keys!='case_number' %}
+                    <tr>
+                        <th>{{ keys }}</th>
+                        <td>{{ val }}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
         {% endfor %}
-    </tbody>
-{% endfor %}
-</table>
+        </table>
+    </div>
+</div>
+
 {% endblock %}
