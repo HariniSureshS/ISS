@@ -27,17 +27,57 @@ block title %}Case Information{% endblock %} {% block content %}
   <h3>{{ _('Enter case information') }}</h3>
   <h5>{{ _('Please enter only one field between Case Text and File. If you fill in both fields, only File will be read.') }}</h5>
 
-  <form action= "{{ url_for('enter_case') }}" method='POST' enctype="multipart/form-data">
+  <form action= "{{ url_for('enter_case') }}" method='POST' enctype="multipart/form-data" id="models-form">
     {{ form.csrf_token }}
-    {{ wtf.form_field(form.case_text) }}
-    {{ wtf.form_field(form.case_upload) }}
+    {{ wtf.form_field(form.case_text, id="textarea") }}
+    {{ wtf.form_field(form.case_upload, id="upload") }}
     {# {{ wtf.form_field(form.from_language) }} #}
     {# {{ wtf.form_field(form.to_language) }} #}
-    {{ wtf.form_field(form.submit) }}
+
+    <h5>Note: due to the size of models, showing the result may take up to 3 minutes.</h5>
+
+    <input type="submit" value="Submit" class="btn btn-default" id="submit-button" onclick=loading()>
 
     {% for error in form.case_upload.errors%}
     <div class='alert alert-danger' role='alert'>{{_(error)}}</div>
     {% endfor %}
   </form>
+
+  <div hidden id="loading-background"></div>
+  <div hidden id="loader" role="status"></div>
+  <style>
+    #loading-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      opacity: 0.5;
+    }
+    #loader {
+      position: absolute;
+      left: 45%;
+      top: 35%;
+      z-index: 100;
+      margin: auto;
+      border: 16px solid #f3f3f3;
+      border-top: 16px solid #3498db;
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+  <script type="text/javascript" >
+    function loading() {
+      document.getElementById('loading-background').hidden = false;
+      document.getElementById('loader').hidden = false;
+    }
+  </script>
 </div>
 {% endblock %}

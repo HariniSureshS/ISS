@@ -57,8 +57,6 @@ def main_menu():
 def enter_case():
     session.pop('params', None)
     case_form = CaseForm()
-    print(case_form.validate_on_submit())
-    print(case_form.errors)
     if request.method == 'POST' and case_form.validate_on_submit():
             session['form'] = request.form
             file_data = request.files.get('case_upload')
@@ -66,7 +64,7 @@ def enter_case():
                 file_data.seek(0)
                 content = file_data.read().decode('utf-8')
                 session['file'] = content
-            elif not request.form['case_text']:
+            elif not request.form.get('case_text', None):
                 return render_template('models.html', form=case_form)
             return redirect('/models/result')
     return render_template('models.html', form=case_form)
