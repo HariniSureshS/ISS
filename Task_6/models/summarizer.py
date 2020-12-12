@@ -1,6 +1,7 @@
 from transformers import pipeline
 
 LIMIT = 2500
+summarizer = pipeline(task='summarization', model="facebook/bart-large-cnn")
 
 # outputs list of text with at most LIMIT characters each
 def split_text(text, limit, sep=" "):
@@ -27,7 +28,6 @@ def get_summary(case_text):
         than the LIMIT number of characters, it simply gets the summary. If not, it cuts
         up the case text into strings that BART (1024 tokens) can handle then rejoins them
     '''
-    summarizer = pipeline(task='summarization', model="facebook/bart-large-cnn")
 
     summary = None
     if len(case_text) < LIMIT:
