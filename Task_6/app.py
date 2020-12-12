@@ -206,7 +206,7 @@ def query_db():
 def get_case_by_number(case_number_):
     try:
         case = dbmodels.Case.query.filter_by(case_number=case_number_).first_or_404(description='There is no data with the following case_number: {}'.format(case_number_))
-        return jsonify(case.serialize())
+        return render_template('tablify.html',allFoundCases=[case.serialize()], numCases=1)
     except Exception as e:
         return 'Error: ' + str(e)
 
@@ -222,8 +222,8 @@ def get_all_cases():
 
         if not params:
             cases = cases.all()
-            print("Total of {} cases were found!".format(len(cases)))
-            return jsonify([case.serialize() for case in cases])
+            numCases=len(cases)
+            return render_template('tablify.html',allFoundCases=[case.serialize() for case in cases],numCases=numCases)
 
         if params['country']:
             cases = cases.filter_by(country=params['country'])
@@ -255,9 +255,10 @@ def get_all_cases():
             cases = cases.filter(Case.risk_score >= 0.75)
 
         cases = cases.all()
-        print("Total of {} cases were found!".format(len(cases)))
+        numCases=len(cases)
 
-        return jsonify([case.serialize() for case in cases])
+        return render_template('tablify.html',allFoundCases=[case.serialize() for case in cases], numCases=numCases)
+
     except Exception as e:
         return 'Error: ' + str(e)
 
