@@ -14,15 +14,15 @@
  <thead class="thead-light">
     <tr>
       <th> </th>    
-      <th>Case number: {{result[0]}} </th>
+      <th>{{result['case_number']}} </th>
     </tr>
     
   </thead>
     <tbody>
-        {% for val in result %}
-            {% if col2name[loop.index0]!='case_number' %}
+        {% for keys, val in result.items() %}
+            {% if keys!='case_number' %}
             <tr>
-                <th>{{ col2name[loop.index0] }}</th>
+                <th>{{ keys }}</th>
                 <td>{{ val }}</td>
             </tr>
             {% endif %}
