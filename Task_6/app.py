@@ -3,7 +3,7 @@ from flask import Flask, session, request, redirect, url_for, render_template, j
 from forms import CaseForm, QueryForm
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-from flask_babel import Babel,_
+# from flask_babel import Babel,_
 from sqlalchemy import or_, func
 from flask_migrate import Migrate
 import datetime
@@ -31,15 +31,15 @@ app.config.from_mapping(
 app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-babel = Babel(app)
-LANGUAGES = {
-    'en' : 'English',
-    'fr' : 'French',
-    'de' : 'German',
-    'zh' : 'Chinese',
-    'ko' : 'Korean',
-    'id' : 'Indonesian'
-}
+# babel = Babel(app)
+# LANGUAGES = {
+#     'en' : 'English',
+#     'fr' : 'French',
+#     'de' : 'German',
+#     'zh' : 'Chinese',
+#     'ko' : 'Korean',
+#     'id' : 'Indonesian'
+# }
 CsrfProtect(app)
 Bootstrap(app)
 
@@ -70,31 +70,31 @@ def enter_case():
     return render_template('case.html', form=case_form)
 
 
-@app.route('/<page>/language/<language>')
-def set_language(page=None, language=None):
-    session['language'] = language
-    if page == 'models':
-        return redirect(url_for('enter_case'))
-    elif page == 'query':
-        return redirect(url_for('query_db'))
+# @app.route('/<page>/language/<language>')
+# def set_language(page=None, language=None):
+#     session['language'] = language
+#     if page == 'models':
+#         return redirect(url_for('enter_case'))
+#     elif page == 'query':
+#         return redirect(url_for('query_db'))
 
 
-@babel.localeselector
-def get_locale():
-    try:
-        language = session['language']
-    except KeyError:
-        language = None
-    if language is not None:
-        return language
-    return request.accept_languages.best_match(LANGUAGES.keys())
+# @babel.localeselector
+# def get_locale():
+#     try:
+#         language = session['language']
+#     except KeyError:
+#         language = None
+#     if language is not None:
+#         return language
+#     return request.accept_languages.best_match(LANGUAGES.keys())
 
 
-@app.context_processor
-def inject_conf_var():
-    return dict(
-        AVAILABLE_LANGUAGES=LANGUAGES,
-        CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(LANGUAGES.keys())))
+# @app.context_processor
+# def inject_conf_var():
+#     return dict(
+#         AVAILABLE_LANGUAGES=LANGUAGES,
+#         CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(LANGUAGES.keys())))
 
 
 @app.route('/models/result')
@@ -125,8 +125,8 @@ def show_result():
                            risk_score=get_risk_score(case_text),
                            abuse_types=get_abuse_types(case_text),
                            similar_cases=get_similar(case_text),
-                           headers=headers,
-                           translation=translate(case_text))
+                           headers=headers)
+                        #    translation=translate(case_text))
 
 
 def summarize(case_text):
@@ -180,8 +180,8 @@ def get_similar(case_text):
         return 'Error: ' + str(e)
 
 
-def translate(case_text):
-    print('Hi')
+# def translate(case_text):
+#     print('Hi')
     # form_input = session['form']
     # if form_input['from_language']!= form_input['to_language']:
     #     return get_translation(case_text,

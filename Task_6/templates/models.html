@@ -1,19 +1,17 @@
 {% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {%
 block title %}Case Information{% endblock %} {% block content %}
 <div class="container">
-  <div class='flex-box'>
-    <div class='lang_container'>
-      <select class="form-control" onchange="javascript:location.href = this.value;">
-        <option>Language</option>
-        <option value='/models/language/en'>English</option>
-        <option value='/models/language/fr'>French</option>
-        <option value='/models/language/de'>German</option>
-        <option value='/models/language/zh'>Chinese</option>
-        <option value='/models/language/ko'>Korean</option>
-        <option value='/models/language/id'>Indonesian</option>
-      </select>
+  <div class="flex-box">
+    <div class="lang_container">
+      <div id="google_translate_element"></div>
     </div>
   </div>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    }
+  </script>
   <style>
     .flex-box {
       display: flex;
@@ -21,25 +19,25 @@ block title %}Case Information{% endblock %} {% block content %}
     }
     .lang_container {
       margin-top: 10px;
-      width: 150px;
     }
   </style>
+
   <h1 class="page-header">Run Models</h1>
+
   <h3>{{ _('Enter case information') }}</h3>
   <h5>{{ _('Please enter only one field between Case Text and File. If you fill in both fields, only File will be read.') }}</h5>
-  <!-- <hr /> -->
+
   <form action= "{{ url_for('enter_case') }}" method='POST' enctype="multipart/form-data">
     {{ form.csrf_token }}
     {{ wtf.form_field(form.case_text) }}
     {{ wtf.form_field(form.case_upload) }}
-    {{ wtf.form_field(form.from_language) }}
-    {{ wtf.form_field(form.to_language) }}
+    <!-- {{ wtf.form_field(form.from_language) }}
+    {{ wtf.form_field(form.to_language) }} -->
     {{ wtf.form_field(form.submit) }}
 
     {% for error in form.case_upload.errors%}
     <div class='alert alert-danger' role='alert'>{{_(error)}}</div>
     {% endfor %}
   </form>
-  <hr />
 </div>
 {% endblock %}
