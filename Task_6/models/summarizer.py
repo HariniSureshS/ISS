@@ -31,14 +31,16 @@ def get_summary(case_text):
 
     summary = None
     if len(case_text) < LIMIT:
-        summary = summarizer(case_text)[0]['summary_text']
+        summary = summarizer(case_text, max_length=100)[0]['summary_text']
         if len(case_text) < len(summary):
             summary = case_text
     else:
         list_of_text = split_text(case_text, LIMIT)
         list_of_summaries = []
         for text in list_of_text:
-            summ = summarizer(text)[0]['summary_text']
+            summ = summarizer(text, max_length=100)[0]['summary_text']
+            if len(text) < len(summ):
+                summ = text
             list_of_summaries.append(summ)
         summary = " ".join(list_of_summaries)
 
