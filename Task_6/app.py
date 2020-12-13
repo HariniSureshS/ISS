@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_babel import Babel, _
 from sqlalchemy import or_, func
 from flask_migrate import Migrate
+import json
 import datetime
 import pandas as pd
 import plotly
@@ -178,6 +179,7 @@ def get_similar(case_text):
         cases = dbmodels.Case.query.all()
         serialized_cases = [case.serialize() for case in cases]
         return get_similar_cases(serialized_cases, user_embedding, top_n = 5)
+
     except Exception as e:
         return 'Error: ' + str(e)
 
@@ -200,8 +202,10 @@ def query_db():
     if request.method == 'POST' and query_form.validate_on_submit():
         if request.form['case_number'] != '':
             return redirect(url_for('get_case_by_number', case_number_ = request.form['case_number']))
+
         session['params'] = request.form
         return redirect(url_for('get_all_cases'))
+
     else:
         return render_template('query.html', form=query_form)
 
@@ -209,8 +213,18 @@ def query_db():
 @app.route('/case/number/<case_number_>')
 def get_case_by_number(case_number_):
     try:
-        case = dbmodels.Case.query.filter_by(case_number = case_number_).first_or_404(description='There is no data with the following case_number: {}'.format(case_number_))
-        return render_template('query_result.html', all_found_cases = [case.serialize()], num_cases = 1)
+        case = dbmodels.Case.query.filter_by(case_number = case_number_).first_or_404(description = 'There is no data with the following case_number: {}'.format(case_number_))
+
+        df = pd.DataFrame.from_records(cases)
+        graph, graph1, graph2 = create_plot(df)
+
+        return render_template('query_result.html',
+                                all_found_cases = [case.serialize()],
+                                num_cases = 1,
+                                plot = graph,
+                                plot1 = graph1,
+                                plot2 = graph2)
+
     except Exception as e:
         return 'Error: ' + str(e)
 
@@ -219,14 +233,15 @@ def get_case_by_number(case_number_):
 def view_single_case(case_number_):
     try:
         case = dbmodels.Case.query.filter_by(case_number = "Case No. {}".format(case_number_)).first().serialize()
+
         return render_template('single_case.html', case = case)
+
     except Exception as e:
         return 'Error: ' + str(e)
 
 
 @app.route('/allcases')
 def get_all_cases():
-
     params = session.get('params', {})
 
     try:
@@ -235,17 +250,27 @@ def get_all_cases():
 
         if not params:
             cases = cases.all()
+            cases = [case.serialize() for case in cases]
             num_cases = len(cases)
-            return render_template('query_result.html', all_found_cases = [case.serialize() for case in cases], num_cases = num_cases)
+
+            df = pd.DataFrame.from_records(cases)
+            graph, graph1, graph2 = create_plot(df)
+
+            return render_template('query_result.html',
+                                    all_found_cases = cases,
+                                    num_cases = num_cases,
+                                    plot = graph,
+                                    plot1 = graph1,
+                                    plot2 = graph2)
 
         if params['country']:
-            cases = cases.filter_by(country=params['country'])
+            cases = cases.filter_by(country = params['country'])
 
         if params['get_open_close']:
             if params['get_open_close'] == '0':
-                cases = cases.filter_by(is_closed=False)
+                cases = cases.filter_by(is_closed = False)
             elif params['get_open_close'] == '1':
-                cases = cases.filter_by(is_closed=True)
+                cases = cases.filter_by(is_closed = True)
 
         if params['open_date']:
             cases = cases.filter(Case.open_date >= params['open_date'])
@@ -254,9 +279,9 @@ def get_all_cases():
             cases = cases.filter(Case.close_date >= params['close_date'])
 
         if params['service'] == 'Child Protection':
-            cases = cases.filter_by(service='Child Protection')
+            cases = cases.filter_by(service = 'Child Protection')
         elif params['service'] == 'Children on the Move':
-            cases = cases.filter_by(service='Children on the Move')
+            cases = cases.filter_by(service = 'Children on the Move')
 
         if params['keywords']:
             keywords = params['keywords'].split(",")
@@ -270,71 +295,105 @@ def get_all_cases():
         cases = cases.all()
         cases = [case.serialize() for case in cases]
         num_cases = len(cases)
-        df =pd.DataFrame.from_records(cases)
-        graph,graph1,graph2=create_plot(df)
 
-        return render_template('query_result.html', all_found_cases = cases, num_cases = num_cases,plot=graph,plot1=graph1,plot2=graph2)
+        df = pd.DataFrame.from_records(cases)
+        graph, graph1, graph2 = create_plot(df)
+
+        return render_template('query_result.html',
+                                all_found_cases = cases,
+                                num_cases = num_cases,
+                                plot = graph,
+                                plot1 = graph1,
+                                plot2 = graph2)
 
     except Exception as e:
         return 'Error: ' + str(e)
 
+
 def create_plot(df):
-    total_cases =df['country'].value_counts().sort_index().values.tolist()
+    total_cases = df['country'].value_counts().sort_index().values.tolist()
 
     countries = df['country'].tolist()
-    countries =list(set(countries))
+    countries = list(set(countries))
     countries.sort()
 
     new_frame = pd.DataFrame(list(zip(countries,total_cases)),
-                     columns=['Country','Totals'])
+                     columns = ['Country','Totals'])
 
-    world =go.Figure(data=go.Choropleth(
+    world = go.Figure(data = go.Choropleth(
         locationmode = "country names",
         locations = new_frame['Country'],
         z = new_frame['Totals'],
         text = new_frame['Country'],
         colorscale ='Viridis',
-        autocolorscale=False,
-        reversescale=False,
-        marker_line_color='darkgray',
-        marker_line_width=0.5,
-        colorbar_title ='Reported Cases'
+        autocolorscale = False,
+        reversescale = False,
+        marker_line_color = 'darkgray',
+        marker_line_width = 0.5,
+        colorbar_title = 'Reported Cases'
     ))
 
-
     world.update_layout(
-        title_text='Reported Iss Cases',
-        geo=dict(
-            showframe=False,
-            showcoastlines=False,
-            projection_type='equirectangular'
+        title_text='Reported ISS Cases',
+        geo = dict(
+            showframe = False,
+            showcoastlines = False,
+            projection_type = 'equirectangular'
         )
     )
 
     data_df = df.groupby('service').agg({'case_number':'count'})
     labels = list(data_df.index.values)
     values = data_df['case_number']
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values,hole=.5)])
+    fig = go.Figure(data = [go.Pie(labels = labels, values = values, hole = .5)])
 
     fig.update_layout(
-        title_text='Service Category'
+        title_text = 'Service Category'
     )
 
     df['month'] = pd.to_datetime(df["open_date"]).dt.strftime('%B')
 
-    data_m =df.groupby('month').agg({'case_number':'count'})
+    data_m = df.groupby('month').agg({'case_number':'count'})
     labels_m = list(data_m.index.values)
     values_m = data_m['case_number']
-    fig1 = go.Figure(data=[go.Pie(labels=labels_m, values=values_m,hole=.5)])
 
-    fig1.update_traces(hoverinfo='label+percent', textinfo='value', textfont_size=20)
+    bar = [
+        go.Bar(
+            x = labels_m,
+            y = values_m,
+            marker_color = 'lightcoral',
+            text = values_m,
+            textposition = 'auto'
+        )
+    ]
 
+    fig1 = go.Figure(bar)
     fig1.update_layout(
-        title_text='Monthly Cases'
+        title = 'Monthly Cases',
+        xaxis_tickfont_size = 14,
+        yaxis = dict(
+            title = 'Frequency of Cases',
+            titlefont_size = 18,
+            tickfont_size = 16
+        ),
+        legend = dict(
+            x = 0,
+            y = 1.0,
+            bgcolor = 'rgba(255,255,255,0)',
+            bordercolor = 'rgba(255,255,255,0)'
+        ),
+        barmode = 'group',
+        xaxis_tickangle = -45,
+        bargap = 0.15,
+        bargroupgap = 0.1
     )
 
-    worldJ = json.dumps(world, cls=plotly.utils.PlotlyJSONEncoder)
-    figS = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    figM = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
+    worldJ = json.dumps(world, cls = plotly.utils.PlotlyJSONEncoder)
+    figS = json.dumps(fig, cls = plotly.utils.PlotlyJSONEncoder)
+    figM = json.dumps(fig1, cls = plotly.utils.PlotlyJSONEncoder)
 
-    return worldJ,figS,figM
+    return worldJ, figS, figM
+
+
+if __name__ == '__main__':
+    app.run(debug = True)

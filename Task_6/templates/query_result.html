@@ -1,103 +1,12 @@
 {% extends "bootstrap/base.html" %} {% block title %}Found Cases{% endblock
 %} {% block content %}
 <div class="container">
-    <div class="flex-box">
-        <div class="menu">
-            <a href="/query" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left"></span> Try Another Query</a>
-            <a href="/" class="btn btn-primary"><span class="glyphicon glyphicon-home"></span> Home</a>
-        </div>
-        <div id="google_translate_element"></div>
-    </div>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
         }
     </script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-    <style>
-        .flex-box {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-    </style>
-
-    <h1 class="page-header">{{ _('View Found Cases') }}</h1>
-
-    <div id="result-container">
-        <table id="result-list" class="display" style="width:100%">
-
-            <thead class="thead-light">
-                <tr>
-                    <th>Case No.</th>
-                    <th>Service</th>
-                    <th>Country</th>
-                    <th>Open Date</th>
-                    <th>Close Date</th>
-                    <th>Status</th>
-                    <th>Details</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-                {% for case in all_found_cases %}
-                <tr>
-                    <td>{{ case['case_number'].split(" ")[2] }}</td>
-                    <td>{{ case['service'] }}</td>
-                    <td>{{ case['country'] }}</td>
-                    <td>{{ case['open_date'] }}</td>
-
-                    {% if not case['close_date'] %}
-                    <td></td>
-                    {% else %}
-                    <td>{{ case['close_date'] }}</td>
-                    {% endif %}
-
-                    {% if case['is_closed'] %}
-                    <td>Closed</td>
-                    {% else %}
-                    <td>Open</td>
-                    {% endif %}
-
-                    <td><a href="{{ '/allcases/' + case['case_number'].split(' ')[2] }}">View</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <div id="world">
-                <script>
-                    var world = {{plot | safe}};
-                    Plotly.plot('world',world,{});
-                </script>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-6">
-            <div  id="fig">
-                <script>
-                    var figs = {{plot1 | safe}};
-                    Plotly.plot('fig',figs,{});
-                </script>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="chart" id="graph">
-                <script>
-                    var graphs = {{plot2 | safe}};
-                    Plotly.plot('graph',graphs,{});
-                </script>
-            </div>
-        </div>
-    </div>
 
     {% block scripts %}
     {{super()}}
@@ -110,12 +19,123 @@
     </script>
     {% endblock %}
 
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
     <style>
-        #result-container {
+        .flex-box {
             display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .tab-content .tab-pane {
+            display: none;
+        }
+        .tab-content  .active {
+            display: block;
+        }
+        #result-container {
+            margin: 50px 0;
+        }
+        #dashboard-flex-box {
+            display: flex;
+            flex-wrap: wrap;
             justify-content: center;
         }
+        #dashboard {
+            margin: 50px 0;
+        }
     </style>
+
+    <div class="flex-box">
+        <div class="menu">
+            <a href="/query" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left"></span> Try Another Query</a>
+            <a href="/" class="btn btn-primary"><span class="glyphicon glyphicon-home"></span> Home</a>
+        </div>
+        <div id="google_translate_element"></div>
+    </div>
+
+    <h1 class="page-header">{{ _('View Found Cases') }}</h1>
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#result-container">{{ _('List') }}</a></li>
+        <li><a data-toggle="tab" href="#dashboard">{{ _('Dashboard') }}</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="result-container" class="tab-pane fade in active">
+            <table id="result-list" class="display" style="width:100%">
+
+                <thead class="thead-light">
+                    <tr>
+                        <th>Case No.</th>
+                        <th>Service</th>
+                        <th>Country</th>
+                        <th>Open Date</th>
+                        <th>Close Date</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for case in all_found_cases %}
+                    <tr>
+                        <td>{{ case['case_number'].split(" ")[2] }}</td>
+                        <td>{{ case['service'] }}</td>
+                        <td>{{ case['country'] }}</td>
+                        <td>{{ case['open_date'] }}</td>
+
+                        {% if not case['close_date'] %}
+                        <td></td>
+                        {% else %}
+                        <td>{{ case['close_date'] }}</td>
+                        {% endif %}
+
+                        {% if case['is_closed'] %}
+                        <td>Closed</td>
+                        {% else %}
+                        <td>Open</td>
+                        {% endif %}
+
+                        <td><a href="{{ '/allcases/' + case['case_number'].split(' ')[2] }}">View</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="dashboard" class="tab-pane fade">
+            <div id="dashboard-flex-box">
+                <div class="row">
+                    <div id="world">
+                        <script>
+                            var world = {{ plot | safe }};
+                            Plotly.plot('world',world,{});
+                        </script>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div id="fig">
+                        <script>
+                            var figs = {{ plot1 | safe }};
+                            Plotly.plot('fig',figs,{});
+                        </script>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="chart" id="graph">
+                        <script>
+                            var graphs = {{ plot2 | safe }};
+                            Plotly.plot('graph',graphs,{});
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
