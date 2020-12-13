@@ -14,6 +14,8 @@
             new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
         }
     </script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
     <style>
         .flex-box {
             display: flex;
@@ -65,6 +67,36 @@
                 {% endfor %}
             </tbody>
         </table>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="world">
+                <script>
+                    var world = {{plot | safe}};
+                    Plotly.plot('world',world,{});
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div  id="fig">
+                <script>
+                    var figs = {{plot1 | safe}};
+                    Plotly.plot('fig',figs,{});
+                </script>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="chart" id="graph">
+                <script>
+                    var graphs = {{plot2 | safe}};
+                    Plotly.plot('graph',graphs,{});
+                </script>
+            </div>
+        </div>
     </div>
 
     {% block scripts %}
