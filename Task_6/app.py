@@ -19,7 +19,7 @@ from models.keyword_extractor import KeywordExtractor
 from models.relation_extractor import get_entity_pairs
 from models.similar_cases import get_similar_cases
 from models.risk_factors import get_risk_factors
-from flask_wtf.csrf import CsrfProtect
+from flask_wtf.csrf import CSRFProtect
 
 risk_model = load_model('models/risk_0.189.h5')
 
@@ -41,7 +41,7 @@ LANGUAGES = {
     'ko' : 'Korean',
     'id' : 'Indonesian'
 }
-CsrfProtect(app)
+CSRFProtect(app)
 Bootstrap(app)
 
 import dbmodels
