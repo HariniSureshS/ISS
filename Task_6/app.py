@@ -1,5 +1,5 @@
 #!bin/python
-from flask import Flask, session, request, redirect, url_for, render_template, jsonify
+from flask import Flask, session, request, redirect, url_for, render_template
 from forms import CaseForm, QueryForm
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
@@ -174,7 +174,7 @@ def get_similar(case_text):
 
     try:
         cases = dbmodels.Case.query.all()
-        serialized_cases = jsonify([case.serialize() for case in cases]).data
+        serialized_cases = [case.serialize() for case in cases]
         return get_similar_cases(serialized_cases, user_embedding, top_n = 5)
     except Exception as e:
         return 'Error: ' + str(e)
@@ -189,13 +189,15 @@ def get_similar(case_text):
     # return case_text
 
 
-# form page to query cases from database
+# form page to query database
 @app.route('/query', methods=['GET', 'POST'])
 def query_db():
+    session.pop('params', None)
+
     query_form = QueryForm()
     if request.method == 'POST' and query_form.validate_on_submit():
         if request.form['case_number'] != '':
-            return redirect(url_for('get_case_by_number', case_number_=request.form['case_number']))
+            return redirect(url_for('get_case_by_number', case_number_ = request.form['case_number']))
         session['params'] = request.form
         return redirect(url_for('get_all_cases'))
     else:
@@ -205,8 +207,17 @@ def query_db():
 @app.route('/case/number/<case_number_>')
 def get_case_by_number(case_number_):
     try:
-        case = dbmodels.Case.query.filter_by(case_number=case_number_).first_or_404(description='There is no data with the following case_number: {}'.format(case_number_))
-        return render_template('tablify.html',allFoundCases=[case.serialize()], numCases=1)
+        case = dbmodels.Case.query.filter_by(case_number = case_number_).first_or_404(description='There is no data with the following case_number: {}'.format(case_number_))
+        return render_template('query_result.html', all_found_cases = [case.serialize()], num_cases = 1)
+    except Exception as e:
+        return 'Error: ' + str(e)
+
+
+@app.route('/allcases/<case_number_>')
+def view_single_case(case_number_):
+    try:
+        case = dbmodels.Case.query.filter_by(case_number = "Case No. {}".format(case_number_)).first().serialize()
+        return render_template('single_case.html', case = case)
     except Exception as e:
         return 'Error: ' + str(e)
 
@@ -222,8 +233,8 @@ def get_all_cases():
 
         if not params:
             cases = cases.all()
-            numCases=len(cases)
-            return render_template('tablify.html',allFoundCases=[case.serialize() for case in cases],numCases=numCases)
+            num_cases = len(cases)
+            return render_template('query_result.html', all_found_cases = [case.serialize() for case in cases], num_cases = num_cases)
 
         if params['country']:
             cases = cases.filter_by(country=params['country'])
@@ -255,9 +266,10 @@ def get_all_cases():
             cases = cases.filter(Case.risk_score >= 0.75)
 
         cases = cases.all()
-        numCases=len(cases)
+        cases = [case.serialize() for case in cases]
+        num_cases = len(cases)
 
-        return render_template('tablify.html',allFoundCases=[case.serialize() for case in cases], numCases=numCases)
+        return render_template('query_result.html', all_found_cases = cases, num_cases = num_cases)
 
     except Exception as e:
         return 'Error: ' + str(e)

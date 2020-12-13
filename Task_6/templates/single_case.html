@@ -1,0 +1,77 @@
+{% extends "bootstrap/base.html" %} {% block title %}Single Case{% endblock
+  %} {% block content %}
+<div class="container">
+  <div class="flex-box">
+    <div class="menu">
+        <a href="/allcases" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left"></span> View List</a>
+        <a href="/" class="btn btn-primary"><span class="glyphicon glyphicon-home"></span> Home</a>
+    </div>
+    <div id="google_translate_element"></div>
+  </div>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script type="text/javascript">
+      function googleTranslateElementInit() {
+          new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+      }
+  </script>
+  <style>
+      .flex-box {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 10px;
+      }
+  </style>
+
+  <h1 class="page-header">{{ _('Case Details') }}</h1>
+
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th></th>
+        <th>{{ case['case_number'] }}</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for key, val in case.items() %}
+            {% if key not in ['id', 'case_number', 'embedding'] %}
+            <tr>
+                {% if key == 'open_date' %}
+                <th>Open Date</th>
+                {% elif key == 'close_date' %}
+                <th>Close Date</th>
+                {% elif key == 'is_closed' %}
+                <th>Status</th>
+                {% elif key == 'country' %}
+                <th>Country</th>
+                {% elif key == 'service' %}
+                <th>Service</th>
+                {% elif key == 'case_text' %}
+                <th>Case Text</th>
+                {% elif key == 'risk_score' %}
+                <th>Risk Score</th>
+                {% elif key == 'summary' %}
+                <th>Summary</th>
+                {% elif key == 'keywords' %}
+                <th>Keywords</th>
+                {% elif key == 'relations' %}
+                <th>Relations</th>
+                {% elif key == 'topic_verbs' %}
+                <th>Abuse Types</th>
+                {% endif %}
+
+                {% if key == 'is_closed' %}
+                  {% if val == True %}
+                  <td>Closed</td>
+                  {% else %}
+                  <td>Open</td>
+                  {% endif %}
+                {% else %}
+                  <td>{{ val }}</td>
+                {% endif %}
+            </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

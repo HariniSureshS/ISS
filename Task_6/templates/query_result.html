@@ -10,49 +10,80 @@
     </div>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script type="text/javascript">
-    function googleTranslateElementInit() {
-        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-    }
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        }
     </script>
     <style>
-    .flex-box {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 10px;
-    }
+        .flex-box {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
     </style>
 
     <h1 class="page-header">{{ _('View Found Cases') }}</h1>
 
-    <div class="col-md-8 offset-md-2">
-        <h1 class="card-header">
-            Total of {{ numCases}} cases were found!
-        </h1>
+    <div id="result-container">
+        <table id="result-list" class="display" style="width:100%">
 
-        <table class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th>Case No.</th>
+                    <th>Service</th>
+                    <th>Country</th>
+                    <th>Open Date</th>
+                    <th>Close Date</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                </tr>
 
-        {% for result in allFoundCases %}
+            </thead>
 
-        <thead class="thead-light">
-            <tr>
-            <th> </th>
-            <th>{{result['case_number']}} </th>
-            </tr>
-
-        </thead>
             <tbody>
-                {% for keys, val in result.items() %}
-                    {% if keys!='case_number' %}
-                    <tr>
-                        <th>{{ keys }}</th>
-                        <td>{{ val }}</td>
-                    </tr>
+                {% for case in all_found_cases %}
+                <tr>
+                    <td>{{ case['case_number'].split(" ")[2] }}</td>
+                    <td>{{ case['service'] }}</td>
+                    <td>{{ case['country'] }}</td>
+                    <td>{{ case['open_date'] }}</td>
+
+                    {% if not case['close_date'] %}
+                    <td></td>
+                    {% else %}
+                    <td>{{ case['close_date'] }}</td>
                     {% endif %}
+
+                    {% if case['is_closed'] %}
+                    <td>Closed</td>
+                    {% else %}
+                    <td>Open</td>
+                    {% endif %}
+
+                    <td><a href="{{ '/allcases/' + case['case_number'].split(' ')[2] }}">View</a></td>
+                </tr>
                 {% endfor %}
             </tbody>
-        {% endfor %}
         </table>
     </div>
-</div>
 
+    {% block scripts %}
+    {{super()}}
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#result-list').DataTable();
+        });
+    </script>
+    {% endblock %}
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+    <style>
+        #result-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</div>
 {% endblock %}
