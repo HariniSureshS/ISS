@@ -15,6 +15,7 @@ class Case(db.Model):
     risk_score = db.Column(db.Float())
     summary = db.Column(db.Text())
     keywords = db.Column(db.ARRAY(db.Text()))
+    relations = db.Column(db.ARRAY(db.Text()))
     topic_verbs = db.Column(db.ARRAY(db.String()))
 
     def __init__(
@@ -30,6 +31,7 @@ class Case(db.Model):
         risk_score = None,
         summary = None,
         keywords = None,
+        relations = None,
         topic_verbs = None
     ):
         self.case_number = case_number
@@ -43,6 +45,7 @@ class Case(db.Model):
         self.risk_score = risk_score
         self.summary = summary
         self.keywords = keywords
+        self.relations = relations
         self.topic_verbs = topic_verbs
 
     def __repr__(self):
@@ -62,5 +65,6 @@ class Case(db.Model):
             'risk_score': self.risk_score,
             'summary': self.summary,
             'keywords': self.keywords,
+            'relations': self.relations,
             'topic_verbs': self.topic_verbs
         }
