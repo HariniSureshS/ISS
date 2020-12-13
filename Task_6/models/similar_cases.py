@@ -1,10 +1,7 @@
 import numpy as np
-import json
 from sklearn.metrics.pairwise import euclidean_distances
 
 def get_similar_cases(cases, user_embedding, top_n = 5):
-    # parse byte data into object
-    cases = json.loads(cases)
 
     db_ids = [case['id'] for case in cases]
     db_embeddings = np.array([np.array(case['embedding']) for case in cases])
