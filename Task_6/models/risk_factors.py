@@ -19,12 +19,12 @@ def get_risk_factors(case_text):
   # tokenize
   word_list = []
   for token in nlp(text):
-    if str(token) not in stop_words:
+    if token.text not in stop_words:
       lemmatized_word = token.lemma_
       word_list.append(lemmatized_word)
 
       # also save lemmatized word and its original in the lookup map
-      lemma_to_orig[lemmatized_word] = token
+      lemma_to_orig[lemmatized_word] = token.text
 
   # get similarity scores between all words in the list and risk factors list, save words that have high similarity score with any of the risk factor
   high_similar_words_list = []
