@@ -352,16 +352,18 @@ def create_plot(df):
     )
 
     df['month'] = pd.to_datetime(df["open_date"]).dt.strftime('%B')
-
-    data_m = df.groupby('month').agg({'case_number':'count'})
-    labels_m = list(data_m.index.values)
+    df["Month"] = pd.to_datetime(df["open_date"]).dt.month
+    data_m = df.groupby(['Month','month']).agg({'case_number':'count'}).reset_index()
+    labels_m = list(data_m['month'])
     values_m = data_m['case_number']
 
     bar = [
         go.Bar(
             x = labels_m,
             y = values_m,
-            marker_color = 'lightcoral',
+            marker = dict(color=['aliceblue','brown','aqua','aquamarine','chocolate',
+                'beige','darksalmon','black','blanchedalmond','blue',
+                'blueviolet','brown']),
             text = values_m,
             textposition = 'auto'
         )
