@@ -32,7 +32,6 @@
     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#abuses">{{ _('Abuse Types') }}</a></li>
     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#risk">{{ _('Risk Score') }}</a></li>
     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#similar">{{ _('Similar Cases') }}</a></li>
-    <!-- <li><a data-toggle="tab" href="#translation">{{ _('Translation') }}</a></li> -->
   </ul>
 
   <div class="tab-content">
@@ -42,13 +41,13 @@
       <p>{{ input }}</p>
     </div>
 
-    <!-- show summary of case -->
+    <!-- show summary of the case -->
     <div id="summary" class="tab-pane fade">
       <h3>{{ _('Case Summary') }}</h3>
       <p>{{ summary }}</p>
     </div>
 
-    <!-- show keywords of case -->
+    <!-- show keywords of the case -->
     <div id="keywords" class="tab-pane fade">
       <h3>{{ _('Keywords') }}</h3>
         {% if not keywords %}
@@ -60,7 +59,7 @@
         {% endif %}
     </div>
 
-    <!-- show relations of case -->
+    <!-- show entity relations of the case -->
     <div id="relations" class="tab-pane fade">
       <h3>{{ _('Entity Relations') }}</h3>
         {% if relations == "No entity relations found" %}
@@ -72,20 +71,20 @@
         {% endif %}
     </div>
 
-    <!-- show main abuse types of case -->
+    <!-- show main abuse types of the case -->
     <div id="abuses" class="tab-pane fade">
       <h3>{{ _('Abuse Types') }}</h3>
       <p>{{ abuse_types }}</p>
     </div>
 
 
-    <!-- show risk score of case -->
+    <!-- show risk score of the case -->
     <div id="risk" class="tab-pane fade">
       <h3>{{ _('Risk Score') }}</h3>
       <p>{{ risk_score }}</p>
     </div>
 
-    <!-- show top 3 similar cases from database -->
+    <!-- show top 5 similar cases from database -->
     <div id="similar" class="tab-pane fade">
       <h3>{{ _('Similar Cases') }}</h3>
       <table class="table">
@@ -99,21 +98,19 @@
           {% for case in similar_cases %}
               <tr>
                 <td>{{ case.case_number.split(" ")[2] }}</td>
-                <td>{{ case.case_text }}</td>
+                <td style="width: 70%">{{ case.summary }}</td>
                 <td>{{ case.country }}</td>
-                <td>{{ case.is_closed }}</td>
+                {% if case.is_closed %}
+                <td>Closed</td>
+                {% else %}
+                <td>Open</td>
+                {% endif %}
                 <td>{{ case.risk_score }}</td>
               </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
-
-    <!-- show translation -->
-    <!-- <div id="translation" class="tab-pane fade">
-      <h3>{{ _('Translation in your select language') }}</h3>
-    </div> -->
-
   </div>
 </div>
 {% endblock %}

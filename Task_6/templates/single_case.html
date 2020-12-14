@@ -3,7 +3,7 @@
 <div class="container">
   <div class="flex-box">
     <div class="menu">
-        <a href="/allcases" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left"></span> View List</a>
+        <a onClick="javascript: window.history.back();" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left"></span> Go Back</a>
         <a href="/" class="btn btn-primary"><span class="glyphicon glyphicon-home"></span> Home</a>
     </div>
     <div id="google_translate_element"></div>
@@ -36,7 +36,7 @@
             {% if key not in ['id', 'case_number', 'embedding'] %}
             <tr>
                 {% if key == 'open_date' %}
-                <th>Open Date</th>
+                <th style="width: 10%">Open Date</th>
                 {% elif key == 'close_date' %}
                 <th>Close Date</th>
                 {% elif key == 'is_closed' %}
@@ -49,6 +49,8 @@
                 <th>Case Text</th>
                 {% elif key == 'risk_score' %}
                 <th>Risk Score</th>
+                {% elif key == 'risk_factors' %}
+                <th>Risk Factors</th>
                 {% elif key == 'summary' %}
                 <th>Summary</th>
                 {% elif key == 'keywords' %}
@@ -57,6 +59,8 @@
                 <th>Relations</th>
                 {% elif key == 'topic_verbs' %}
                 <th>Abuse Types</th>
+                {% elif key == 'similar_cases' %}
+                <th>Similar Cases</th>
                 {% endif %}
 
                 {% if key == 'is_closed' %}
@@ -65,6 +69,28 @@
                   {% else %}
                   <td>Open</td>
                   {% endif %}
+                {% elif val == None %}
+                  <td></td>
+                {% elif key == 'keywords' or key == 'relations' %}
+                  <td>
+                    <ul>
+                    {% for each in val %}
+                      <li>{{ each }}{% if idx != len(val) %}<br /> {% endif %}</li>
+                    {% endfor %}
+                    </ul>
+                  </td>
+                {% elif key == 'topic_verbs' %}
+                  <td>
+                    {% for idx, each in enumerate(val) %}
+                      {{ each[0]|upper }}{{ each[1:] }}{% if idx == 0 %}, {% endif %}
+                    {% endfor %}
+                  </td>
+                {% elif key == 'similar_cases' %}
+                  <td>
+                    {% for idx, each in enumerate(val) %}
+                      <a href="{{ '/allcases/{}'.format(each.split(' ')[2]) }}">{{ each }}</a>{% if idx != 4 %}, {% endif %}
+                    {% endfor %}
+                  </td>
                 {% else %}
                   <td>{{ val }}</td>
                 {% endif %}

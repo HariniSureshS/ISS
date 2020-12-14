@@ -118,18 +118,17 @@ def show_result():
     else:
         case_text = form_input['case_text']
 
-    headers = ['Case No.', 'Case Text', 'Country', 'Closed', 'Risk Score']
+    headers = ['Case No.', 'Case Summary', 'Country', 'Status', 'Risk Score']
 
     return render_template('models_result.html',
                            input=case_text,
-                           summary=summarize(case_text),
-                           keywords=get_keywords(case_text),
-                           relations=get_relations(case_text),
-                           risk_score=get_risk_score(case_text),
-                           abuse_types=get_abuse_types(case_text),
+                        #    summary=summarize(case_text),
+                        #    keywords=get_keywords(case_text),
+                        #    relations=get_relations(case_text),
+                        #    risk_score=get_risk_score(case_text),
+                        #    abuse_types=get_abuse_types(case_text),
                            similar_cases=get_similar(case_text),
                            headers=headers)
-                        #    translation=translate(case_text))
 
 
 def summarize(case_text):
@@ -183,15 +182,6 @@ def get_similar(case_text):
     except Exception as e:
         return 'Error: ' + str(e)
 
-# def translate(case_text):
-#     print('Hi')
-    # form_input = session['form']
-    # if form_input['from_language']!= form_input['to_language']:
-    #     return get_translation(case_text,
-    #                            form_input['from_language'],
-    #                            form_input['to_language'])
-    # return case_text
-
 
 # form page to query database
 @app.route('/query', methods=['GET', 'POST'])
@@ -234,7 +224,12 @@ def view_single_case(case_number_):
     try:
         case = dbmodels.Case.query.filter_by(case_number = "Case No. {}".format(case_number_)).first().serialize()
 
-        return render_template('single_case.html', case = case)
+        relations = []
+        for each in case['relations']:
+            relations.append(each[0] + ' --> ' + each[1] + ' --> ' + each[2])
+        case['relations'] = relations
+
+        return render_template('single_case.html', case = case, enumerate = enumerate, len = len)
 
     except Exception as e:
         return 'Error: ' + str(e)
@@ -361,9 +356,9 @@ def create_plot(df):
         go.Bar(
             x = labels_m,
             y = values_m,
-            marker = dict(color=['aliceblue','brown','aqua','aquamarine','chocolate',
-                'beige','darksalmon','black','blanchedalmond','blue',
-                'blueviolet','brown']),
+            marker = dict(color=['aliceblue','plum','mistyrose','thistle','khaki',
+                'beige','darksalmon','lightcyan','blanchedalmond','lightcoral',
+                'lavender','lightblue']),
             text = values_m,
             textposition = 'auto'
         )
