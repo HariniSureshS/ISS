@@ -24,7 +24,11 @@ def seed():
         data['close_date'] = None
       data['case_text'] = re.sub(r'[\n\r\t]','',data['case_text'])
       data['embedding'] = np.array(extract_embeddings([data['case_text']])).tolist()[0]
+      data['keywords'] = ast.literal_eval(data['keywords'])
+      data['relations'] = ast.literal_eval(data['relations'])
+      data['risk_factors'] = ast.literal_eval(data['risk_factors'])
       data['topic_verbs'] = ast.literal_eval(data['topic_verbs'])
+      data['similar_cases'] = ast.literal_eval(data['similar_cases'])
 
       mapped_seed_data.append(Case(
         case_number = data['case_number'],
@@ -34,9 +38,14 @@ def seed():
         is_closed = data['is_closed'],
         close_date = data['close_date'],
         service = data['service'],
+        summary = data['summary'],
+        keywords = data['keywords'],
+        relations = data['relations'],
         embedding = data['embedding'],
         risk_score = data['risk_score'],
-        topic_verbs = data['topic_verbs']
+        risk_factors = data['risk_factors'],
+        topic_verbs = data['topic_verbs'],
+        similar_cases = data['similar_cases']
       ))
 
     db.session.add_all(mapped_seed_data)
