@@ -92,13 +92,14 @@
           {% for header in headers %}
             <th>{{header}}</th>
           {% endfor %}
+            <th>Details</th>
         </thead>
 
         <tbody>
           {% for case in similar_cases %}
               <tr>
                 <td>{{ case.case_number.split(" ")[2] }}</td>
-                <td style="width: 70%">{{ case.summary }}</td>
+                <td style="width: 65%">{{ case.summary }}</td>
                 <td>{{ case.country }}</td>
                 {% if case.is_closed %}
                 <td>Closed</td>
@@ -106,6 +107,7 @@
                 <td>Open</td>
                 {% endif %}
                 <td>{{ case.risk_score }}</td>
+                <td><a href="{{ '/allcases/' + case['case_number'].split(' ')[2] }}">View</a></td>
               </tr>
           {% endfor %}
         </tbody>

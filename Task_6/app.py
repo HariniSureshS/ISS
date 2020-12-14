@@ -122,11 +122,11 @@ def show_result():
 
     return render_template('models_result.html',
                            input=case_text,
-                        #    summary=summarize(case_text),
-                        #    keywords=get_keywords(case_text),
-                        #    relations=get_relations(case_text),
-                        #    risk_score=get_risk_score(case_text),
-                        #    abuse_types=get_abuse_types(case_text),
+                           summary=summarize(case_text),
+                           keywords=get_keywords(case_text),
+                           relations=get_relations(case_text),
+                           risk_score=get_risk_score(case_text),
+                           abuse_types=get_abuse_types(case_text),
                            similar_cases=get_similar(case_text),
                            headers=headers)
 
