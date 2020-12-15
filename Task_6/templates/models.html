@@ -23,8 +23,8 @@ block title %}Case Information{% endblock %} {% block content %}
 
   <h1 class="page-header">Run Models</h1>
 
-  <h3>{{ _('Enter case information') }}</h3>
-  <h5>{{ _('Please enter only one field between Case Text and File. If you fill in both fields, only File will be read.') }}</h5>
+  <h3>Enter case information</h3>
+  <h5>Please enter only one field between Case Text and File. If you fill in both fields, only File will be read.</h5>
 
   <form action= "{{ url_for('enter_case') }}" method='POST' enctype="multipart/form-data" id="models-form">
     {{ form.csrf_token }}
@@ -33,12 +33,12 @@ block title %}Case Information{% endblock %} {% block content %}
     {# {{ wtf.form_field(form.from_language) }} #}
     {# {{ wtf.form_field(form.to_language) }} #}
 
-    <h5>Note: due to the size of models, showing the result may take up to 3 minutes.</h5>
+    <h5>Note: due to the size of models, showing results may take a while. Take a break, stretch, or grab your favorite beverage!</h5>
 
     <input type="submit" value="Submit" class="btn btn-default" id="submit-button" onclick=loading()>
 
     {% for error in form.case_upload.errors%}
-    <div class='alert alert-danger' role='alert'>{{_(error)}}</div>
+    <div class='alert alert-danger' role='alert'>{{ error }}</div>
     {% endfor %}
   </form>
 

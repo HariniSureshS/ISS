@@ -23,12 +23,12 @@
 
     <h1 class="page-header">Query Database</h1>
 
-    <h3>{{ _('View all cases') }}</h3>
-    <a href="/allcases">{{ _('View all cases') }}</a>
+    <h3>View all cases</h3>
+    <a href="/allcases">View all cases</a>
     <hr />
 
-    <h3>{{ _('Filter cases by features') }}</h3>
-    <h5>{{ _('Fill out as many criteria as needed') }}</h5>
+    <h3>Filter cases by features</h3>
+    <h5>Fill out as many criteria as needed</h5>
 
     <form action="{{ url_for('query_db') }}" method='POST'>
       {{ form.csrf_token }}

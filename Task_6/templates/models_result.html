@@ -14,6 +14,7 @@
       new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
     }
   </script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <style>
     .flex-box {
       display: flex;
@@ -22,36 +23,36 @@
     }
   </style>
 
-  <h1 class="page-header">{{ _('View Result') }}</h1>
+  <h1 class="page-header">View Result</h1>
 
   <ul class="nav nav-tabs">
-    <li class="active nav-item"><a class="nav-link" data-toggle="tab" href="#input">{{ _('Case Text') }}</a></li>
-    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#summary">{{ _('Case Summary') }}</a></li>
-    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#keywords">{{ _('Keywords') }}</a></li>
-    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#relations">{{ _('Entity Relations') }}</a></li>
-    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#abuses">{{ _('Abuse Types') }}</a></li>
-    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#risk">{{ _('Risk Score') }}</a></li>
-    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#similar">{{ _('Similar Cases') }}</a></li>
+    <li class="active nav-item"><a class="nav-link" data-toggle="tab" href="#input">Case Text</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#summary">Case Summary</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#keywords">Keywords</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#relations">Entity Relations</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#abuses">Abuse Types</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#risk">Risk Score</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#similar">Similar Cases</a></li>
   </ul>
 
   <div class="tab-content">
 
     <div id="input" class="tab-pane fade in active">
-      <h3>{{ _('Case Text') }}</h3>
+      <h3>Case Text</h3>
       <p>{{ input }}</p>
     </div>
 
     <!-- show summary of the case -->
     <div id="summary" class="tab-pane fade">
-      <h3>{{ _('Case Summary') }}</h3>
+      <h3>Case Summary</h3>
       <p>{{ summary }}</p>
     </div>
 
     <!-- show keywords of the case -->
     <div id="keywords" class="tab-pane fade">
-      <h3>{{ _('Keywords') }}</h3>
+      <h3>Keywords</h3>
         {% if not keywords %}
-          {{ _('No keywords found') }}
+          <p>No keywords found</p>
         {% else %}
           {% for keyword in keywords %}
             <li>{{ keyword }}</li>
@@ -61,32 +62,35 @@
 
     <!-- show entity relations of the case -->
     <div id="relations" class="tab-pane fade">
-      <h3>{{ _('Entity Relations') }}</h3>
+      <h3>Entity Relations</h3>
         {% if relations == "No entity relations found" %}
-          {{ _('No entity relations found') }}
+          <p>No entity relations found</p>
         {% else %}
-          {% for relation in relations %}
-            <li>{{ relation[0] + ' --> ' + relation[1] + ' --> ' + relation[2] }}</li>
-          {% endfor %}
+          <div id="graph">
+            <script>
+                var graph = {{ relations | safe }};
+                Plotly.plot('graph', graph, {});
+            </script>
+          </div>
         {% endif %}
     </div>
 
     <!-- show main abuse types of the case -->
     <div id="abuses" class="tab-pane fade">
-      <h3>{{ _('Abuse Types') }}</h3>
+      <h3>Abuse Types</h3>
       <p>{{ abuse_types }}</p>
     </div>
 
 
     <!-- show risk score of the case -->
     <div id="risk" class="tab-pane fade">
-      <h3>{{ _('Risk Score') }}</h3>
+      <h3>Risk Score</h3>
       <p>{{ risk_score }}</p>
     </div>
 
     <!-- show top 5 similar cases from database -->
     <div id="similar" class="tab-pane fade">
-      <h3>{{ _('Similar Cases') }}</h3>
+      <h3>Similar Cases</h3>
       <table class="table">
         <thead>
           {% for header in headers %}
