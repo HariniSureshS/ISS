@@ -26,7 +26,7 @@ from textConverters import convert_pdf_to_txt
 from textConverters import doc_to_txt
 import os
 
-#risk_model = load_model('models/risk_0.189.h5')
+risk_model = load_model('models/risk_0.189.h5')
 
 app = Flask(__name__)
 app.config.from_mapping(
