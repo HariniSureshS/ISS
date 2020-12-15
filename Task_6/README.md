@@ -18,11 +18,6 @@ If "ERROR: Could not find a version that satisfies the requirement requirements.
 ```
 (env)$ pip install -r requirements.txt
 ```
-When using conda evironment:
-```
-$ conda create --name omdena-iss python=3.8
-$ conda activate omdena-iss
-```
 
 To run the app locally:
 ```
