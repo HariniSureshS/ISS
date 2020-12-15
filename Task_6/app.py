@@ -22,8 +22,8 @@ from models.relation_extractor import get_entity_pairs
 from models.similar_cases import get_similar_cases
 from models.risk_factors import get_risk_factors
 from flask_wtf.csrf import CSRFProtect
-from textConverters import convert_pdf_to_txt
-from textConverters import doc_to_txt
+from text_converters import convert_pdf_to_txt
+from text_converters import doc_to_txt
 import os
 
 risk_model = load_model('models/risk_0.189.h5')
@@ -65,19 +65,19 @@ def enter_case():
     if request.method == 'POST' and case_form.validate_on_submit():
             session['form'] = request.form
             file_data = request.files.get('case_upload')
-            
+
             if 'txt' in file_data.filename:
-                file_data.save('./temp.txt')                
+                file_data.save('./temp.txt')
                 session['file'] = 'txt'
-            
+
             elif 'pdf' in file_data.filename:
                 file_data.save('./temp.pdf')
                 session['file'] = 'pdf'
-                
+
             elif 'doc' in file_data.filename:
                 file_data.save('./temp.doc')
                 session['file'] = 'doc'
-                
+
             elif not request.form.get('case_text', None):
                 return render_template('models.html', form=case_form)
             return redirect('/models/result')
@@ -133,7 +133,7 @@ def show_result():
     elif file_input == 'doc':
         case_text = doc_to_txt('./temp.doc')
         os.remove('./temp.doc')
-        
+
     else:
         case_text = form_input['case_text']
 
@@ -223,12 +223,13 @@ def query_db():
 def get_case_by_number(case_number_):
     try:
         case = dbmodels.Case.query.filter_by(case_number = case_number_).first_or_404(description = 'There is no data with the following case_number: {}'.format(case_number_))
+        case = [case.serialize()]
 
-        df = pd.DataFrame.from_records(cases)
+        df = pd.DataFrame.from_records(case)
         graph, graph1, graph2 = create_plot(df)
 
         return render_template('query_result.html',
-                                all_found_cases = [case.serialize()],
+                                all_found_cases = case,
                                 num_cases = 1,
                                 plot = graph,
                                 plot1 = graph1,
