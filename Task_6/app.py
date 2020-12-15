@@ -72,11 +72,11 @@ def enter_case():
             
             elif 'pdf' in file_data.filename:
                 file_data.save('./temp.pdf')
-                session['file']='pdf'
+                session['file'] = 'pdf'
                 
             elif 'doc' in file_data.filename:
                 file_data.save('./temp.doc')
-                session['file']='doc'
+                session['file'] = 'doc'
                 
             elif not request.form.get('case_text', None):
                 return render_template('models.html', form=case_form)
@@ -124,13 +124,13 @@ def show_result():
     if 'file' in session.keys():
         file_input = session['file']
 
-    if file_input=='pdf':
+    if file_input == 'pdf':
         case_text = convert_pdf_to_txt('./temp.pdf')
         os.remove('./temp.pdf')
-    elif file_input=='txt':
+    elif file_input == 'txt':
         case_text = open('./temp.txt').read()
         os.remove('./temp.txt')
-    elif file_input=='doc':
+    elif file_input == 'doc':
         case_text = doc_to_txt('./temp.doc')
         os.remove('./temp.doc')
         
@@ -141,12 +141,12 @@ def show_result():
 
     return render_template('models_result.html',
                            input=case_text,
-                            summary=summarize(case_text),
-                            keywords=get_keywords(case_text),
-                            relations=get_relations(case_text),
-                            risk_score=get_risk_score(case_text),
-                            abuse_types=get_abuse_types(case_text),
-                            similar_cases=get_similar(case_text),
+                           summary=summarize(case_text),
+                           keywords=get_keywords(case_text),
+                           relations=get_relations(case_text),
+                           risk_score=get_risk_score(case_text),
+                           abuse_types=get_abuse_types(case_text),
+                           similar_cases=get_similar(case_text),
                            headers=headers)
 
 
