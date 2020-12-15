@@ -22,6 +22,9 @@ from models.relation_extractor import get_entity_pairs
 from models.similar_cases import get_similar_cases
 from models.risk_factors import get_risk_factors
 from flask_wtf.csrf import CSRFProtect
+from textConverters import convert_pdf_to_txt
+from textConverters import doc_to_txt
+import os
 
 risk_model = load_model('models/risk_0.189.h5')
 
@@ -62,10 +65,19 @@ def enter_case():
     if request.method == 'POST' and case_form.validate_on_submit():
             session['form'] = request.form
             file_data = request.files.get('case_upload')
-            if file_data:
-                file_data.seek(0)
-                content = file_data.read().decode('utf-8')
-                session['file'] = content
+            
+            if 'txt' in file_data.filename:
+                file_data.save('./temp.txt')                
+                session['file'] = 'txt'
+            
+            elif 'pdf' in file_data.filename:
+                file_data.save('./temp.pdf')
+                session['file'] = 'pdf'
+                
+            elif 'doc' in file_data.filename:
+                file_data.save('./temp.doc')
+                session['file'] = 'doc'
+                
             elif not request.form.get('case_text', None):
                 return render_template('models.html', form=case_form)
             return redirect('/models/result')
@@ -112,8 +124,16 @@ def show_result():
     if 'file' in session.keys():
         file_input = session['file']
 
-    if file_input:
-        case_text = file_input
+    if file_input == 'pdf':
+        case_text = convert_pdf_to_txt('./temp.pdf')
+        os.remove('./temp.pdf')
+    elif file_input == 'txt':
+        case_text = open('./temp.txt').read()
+        os.remove('./temp.txt')
+    elif file_input == 'doc':
+        case_text = doc_to_txt('./temp.doc')
+        os.remove('./temp.doc')
+        
     else:
         case_text = form_input['case_text']
 
