@@ -7,6 +7,7 @@ import json
 def generate_graph_from_relation(pairs):
     edges = []
     nodes = []
+    edges_labels = {}
 
     for index in range(len(pairs)):
         node_a = pairs[index][0]  # subject
@@ -15,12 +16,14 @@ def generate_graph_from_relation(pairs):
         edges.append(pair)
         nodes.append(node_a)
         nodes.append(node_b)
+        rel = {pair: pairs[index][1]}  # relation
+        edges_labels.update(rel)
 
     nodes = list(set(nodes))
     G = nx.DiGraph()
     G.add_edges_from(edges)
     G.add_nodes_from(nodes)
-    node_positions = nx.spring_layout(G)
+    node_positions = nx.spring_layout(G, k = 1.0)
     node_x = []
     node_y = []
     node_text = []
@@ -51,12 +54,31 @@ def generate_graph_from_relation(pairs):
 
     edge_x = []
     edge_y = []
+    plot_weights = []
 
     for edge in G.edges:
         x0, y0 = node_positions[edge[0]]
         x1, y1 = node_positions[edge[1]]
         edge_x.extend([x0, x1, None])
         edge_y.extend([y0, y1, None])
+        ax = (x0+x1)/2
+        ay = (y0+y1)/2
+        plot_weights.append((edges_labels[edge], ax, ay))
+
+    annotations_list = [
+                        dict(   
+                            x = plot_weight[1],
+                            y = plot_weight[2],
+                            xref = 'x',
+                            yref = 'y',
+                            text = plot_weight[0],
+                            showarrow = True,
+                            arrowhead = 7,
+                            ax = plot_weight[1],
+                            ay = plot_weight[2]
+                        ) 
+                        for plot_weight in plot_weights
+    ]
 
     # The edges will be drawn as lines:
     edge_trace = go.Scatter(
@@ -70,9 +92,12 @@ def generate_graph_from_relation(pairs):
     fig = go.Figure(data = go.Data([edge_trace, node_trace]),
                     layout = go.Layout(
                     titlefont = dict(size = 16),
+                    plot_bgcolor = 'rgba(0,0,0,0)',
                     showlegend = False,
                     hovermode = 'closest',
-                    margin = dict(b = 20, l = 5, r = 5, t = 40),
+                    width = 700,
+                    margin = dict(b = 30, l = 20, r = 30, t = 40),
+                    annotations = annotations_list,
                     xaxis = go.XAxis(showgrid = False, zeroline = False, showticklabels = False),
                     yaxis = go.YAxis(showgrid = False, zeroline = False, showticklabels = False)))
 
