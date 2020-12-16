@@ -56,15 +56,15 @@ def enter_case():
             session['form'] = request.form
             file_data = request.files.get('case_upload')
 
-            if 'txt' in file_data.filename:
+            if '.txt' in file_data.filename:
                 file_data.save('./temp.txt')
                 session['file'] = 'txt'
 
-            elif 'pdf' in file_data.filename:
+            elif '.pdf' in file_data.filename:
                 file_data.save('./temp.pdf')
                 session['file'] = 'pdf'
 
-            elif 'doc' in file_data.filename:
+            elif '.doc' in file_data.filename:
                 file_data.save('./temp.doc')
                 session['file'] = 'doc'
 
