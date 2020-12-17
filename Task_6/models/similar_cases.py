@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.metrics.pairwise import euclidean_distances
+from sklearn.metrics.pairwise import cosine_similarity
 
 def get_similar_cases(cases, user_embedding, top_n = 5):
 
@@ -9,11 +9,11 @@ def get_similar_cases(cases, user_embedding, top_n = 5):
 
     sim_score_to_id = {}
     for id, embedding in case_ids_and_embeddings:
-        score = euclidean_distances(user_embedding, embedding.reshape(1, -1)).flatten()
+        score = cosine_similarity(user_embedding, embedding.reshape(1, -1)).flatten()
         score = np.array_str(score)
         sim_score_to_id[score] = id
 
-    top_n_scores = sorted(sim_score_to_id.keys())[1:top_n+1]
+    top_n_scores = sorted(sim_score_to_id.keys(),reverse=True)[1:top_n+1]
     top_n_ids = [sim_score_to_id[score] for score in top_n_scores]
 
     top_n_cases = [case for case in cases for id in top_n_ids if case['id'] == id]
