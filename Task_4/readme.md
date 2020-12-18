@@ -9,3 +9,5 @@ This task deals with the creation of models.
 - Creation of model for creating embeddings of the case files. 
     - [Embedding generation notebook](https://colab.research.google.com/drive/1HYPXJC3YvEFNru3zv3fFhjB128b8eOWa?usp=sharing)
     - [Embedding generation data - case files and models](https://drive.google.com/drive/folders/1NjxaqRevdQ4EV_mcS-I4ePiq3albNZAW?usp=sharing)
+- Creation of model for Clustering - DBSCAN and Hierarhical Clustering
+    - [Clustering notebook](https://colab.research.google.com/drive/1lQb8G5njb71sX_JreyJHnsDi3LNwcNl3?usp=sharing)
