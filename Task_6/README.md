@@ -19,7 +19,7 @@ If "ERROR: Could not find a version that satisfies the requirement requirements.
 (env)$ pip install -r requirements.txt
 ```
 
-To run the app locally:
+To run the app locally, first contact us to get the "config.py" file to get secret keys.
 ```
 $ flask run
 ```
