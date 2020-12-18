@@ -1,4 +1,3 @@
-from transformers import pipeline
 from summarizer import TransformerSummarizer
 
 summarizer = TransformerSummarizer(transformer_type="XLNet",transformer_model_key="xlnet-base-cased")
