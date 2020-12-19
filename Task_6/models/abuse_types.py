@@ -1,8 +1,8 @@
 import re
 import spacy
-import en_core_web_lg
+import en_core_web_sm
 
-nlp = en_core_web_lg.load()
+nlp = en_core_web_sm.load()
 stop_words = list(nlp.Defaults.stop_words)
 
 abuses = ['abandon' 'molest', 'beat', 'fight', 'divorce', 'threaten', 'drug', 'neglect']
