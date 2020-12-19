@@ -19,7 +19,7 @@ If "ERROR: Could not find a version that satisfies the requirement requirements.
 (env)$ pip install -r requirements.txt
 ```
 
-To run the app locally, first contact us to get the "config.py" file to get secret keys.
+To run the app locally, first contact us to get the config.py file to get secret keys.
 ```
 $ flask run
 ```
@@ -30,7 +30,7 @@ $ python3 app.py
 #### Database
 You'll need PostgreSQL >= 11.6.
 
-To create a local database:
+To create a local database (make sure to change SQLALCHEMY_DATABASE_URI accordingly in config.py):
 ```
 $ createdb iss
 ```
